@@ -7,6 +7,7 @@
     <groupId>com.afterqcd</groupId>
     <artifactId>study-spring-aop</artifactId>
     <version>1.0-SNAPSHOT</version>
+    <name>SpringAop</name>
 
     <properties>
         <java.version>1.8</java.version>

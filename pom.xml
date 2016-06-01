@@ -12,5 +12,6 @@
 
     <modules>
         <module>SpringAop</module>
+        <module>SpringRest</module>
     </modules>
 </project>

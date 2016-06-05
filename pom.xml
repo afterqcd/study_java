@@ -14,5 +14,6 @@
         <module>SpringAop</module>
         <module>SpringRest</module>
         <module>Shiro</module>
+        <module>Servlet</module>
     </modules>
 </project>

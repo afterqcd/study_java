@@ -1,0 +1,15 @@
+Downloads|⇒ tree apache-tomcat-8.0.35/webapps/ROOT/WEB-INF
+apache-tomcat-8.0.35/webapps/ROOT/WEB-INF
+├── classes
+│   └── com
+│       └── afterqcd
+│           └── study
+│               └── servlet
+│                   └── clz
+│                       └── HelloServlet.class  # 由HelloServlet编译得到
+└── web.xml # 即为web.xml.bak
+
+运行流程:
+* 编译: mvn clean install
+* 拷贝classes: mv target/classes $TOMCAT_HOME/webapps/ROOT/WEB-INF/
+* 拷贝web.xml: mv src/main/java/com/afterqcd/study/servlet/clz/web.xml.bak $TOMCAT_HOME/webapps/ROOT/WEB-INF/web.xml

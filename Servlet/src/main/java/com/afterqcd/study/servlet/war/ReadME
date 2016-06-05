@@ -1,0 +1,30 @@
+Downloads|⇒ tree apache-tomcat-8.0.35/webapps/study-servlet*
+apache-tomcat-8.0.35/webapps/study-servlet # 由tomcat部署该项目后自动产生
+├── META-INF
+│   ├── MANIFEST.MF
+│   ├── maven
+│   │   └── com.afterqcd
+│   │       └── study-servlet
+│   │           ├── pom.properties
+│   │           └── pom.xml
+│   └── war-tracker
+└── WEB-INF
+    ├── classes
+    │   └── com
+    │       └── afterqcd
+    │           └── study
+    │               └── servlet
+    │                   ├── clz
+    │                   │   └── HelloServlet.class
+    │                   └── war
+    │                       └── SayHelloServlet.class
+    ├── lib
+    │   └── javax.servlet-api-3.1.0.jar
+    └── web.xml
+apache-tomcat-8.0.35/webapps/study-servlet.war # 由项目构建得到 mvn clean install ->> target/study-servlet.war
+
+运行流程:
+* 构建: mvn clean install
+* 将war拷贝到tomcat下: mv target/study-servlet.war $TOMCAT_HOME/webapps/
+* 启动tomcat: bin/startup.sh
+* 访问url: http://localhost:8080/study-servlet/hello

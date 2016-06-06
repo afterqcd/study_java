@@ -1,7 +1,6 @@
 package com.afterqcd.study.servlet.war.upload;
 
 import org.apache.commons.fileupload.FileItem;
-import org.apache.commons.fileupload.FileUploadException;
 import org.apache.commons.fileupload.disk.DiskFileItemFactory;
 import org.apache.commons.fileupload.servlet.ServletFileUpload;
 
@@ -18,6 +17,14 @@ import javax.servlet.http.HttpServletResponse;
  * Created by afterqcd on 16/6/6.
  */
 public class UploadServlet extends HttpServlet {
+    private String path;
+
+    @Override
+    public void init() throws ServletException {
+        this.path = getServletContext().getInitParameter("fileUpload");
+        System.out.println("Path " + this.path);
+    }
+
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp)
             throws ServletException, IOException {

@@ -14,10 +14,9 @@ apache-tomcat-8.0.35/webapps/study-servlet # 由tomcat部署该项目后自动�
     │       └── afterqcd
     │           └── study
     │               └── servlet
-    │                   ├── clz
-    │                   │   └── HelloServlet.class
     │                   └── war
-    │                       └── SayHelloServlet.class
+    │                       └── manual
+    │                           └── SayHelloServlet.class
     ├── lib
     │   └── javax.servlet-api-3.1.0.jar
     └── web.xml

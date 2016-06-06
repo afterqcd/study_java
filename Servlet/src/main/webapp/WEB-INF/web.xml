@@ -4,12 +4,124 @@
 
 <web-app>
     <display-name>Archetype Created Web Application</display-name>
+
+    <filter>
+        <filter-name>logging</filter-name>
+        <filter-class>com.afterqcd.study.servlet.war.filter.LoggingFilter</filter-class>
+    </filter>
+    <filter-mapping>
+        <filter-name>logging</filter-name>
+        <url-pattern>/*</url-pattern>
+    </filter-mapping>
+
     <servlet>
         <servlet-name>hello</servlet-name>
-        <servlet-class>com.afterqcd.study.servlet.war.SayHelloServlet</servlet-class>
+        <servlet-class>com.afterqcd.study.servlet.war.manual.SayHelloServlet</servlet-class>
+        <init-param>
+            <param-name>message</param-name>
+            <param-value>Hello</param-value>
+        </init-param>
+        <init-param>
+            <param-name>who</param-name>
+            <param-value>Java Servlet</param-value>
+        </init-param>
     </servlet>
+    <servlet>
+        <servlet-name>userProfile</servlet-name>
+        <servlet-class>com.afterqcd.study.servlet.war.form.UserServlet</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>header</servlet-name>
+        <servlet-class>com.afterqcd.study.servlet.war.header.HeaderServlet</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>error</servlet-name>
+        <servlet-class>com.afterqcd.study.servlet.war.error.ErrorServlet</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>raiseException</servlet-name>
+        <servlet-class>com.afterqcd.study.servlet.war.error.RaiseExceptionServlet</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>nonExist</servlet-name>
+        <servlet-class>com.afterqcd.study.servlet.war.error.NonExistServlet</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>addCookie</servlet-name>
+        <servlet-class>com.afterqcd.study.servlet.war.cookie.AddCookieServlet</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>showCookie</servlet-name>
+        <servlet-class>com.afterqcd.study.servlet.war.cookie.ShowCookieServlet</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>removeCookie</servlet-name>
+        <servlet-class>com.afterqcd.study.servlet.war.cookie.RemoveCookieServlet</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>session</servlet-name>
+        <servlet-class>com.afterqcd.study.servlet.war.session.SessionServlet</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>upload</servlet-name>
+        <servlet-class>com.afterqcd.study.servlet.war.upload.UploadServlet</servlet-class>
+    </servlet>
+
     <servlet-mapping>
         <servlet-name>hello</servlet-name>
         <url-pattern>/hello</url-pattern>
     </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>userProfile</servlet-name>
+        <url-pattern>/userProfile</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>header</servlet-name>
+        <url-pattern>/header</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>error</servlet-name>
+        <url-pattern>/error</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>raiseException</servlet-name>
+        <url-pattern>/raiseException</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>nonExist</servlet-name>
+        <url-pattern>/nonExist</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>addCookie</servlet-name>
+        <url-pattern>/addCookie</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>showCookie</servlet-name>
+        <url-pattern>/showCookie</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>removeCookie</servlet-name>
+        <url-pattern>/removeCookie</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>session</servlet-name>
+        <url-pattern>/session</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>upload</servlet-name>
+        <url-pattern>/upload</url-pattern>
+    </servlet-mapping>
+
+    <error-page>
+        <error-code>400</error-code>
+        <location>/error</location>
+    </error-page>
+    <error-page>
+        <error-code>404</error-code>
+        <location>/error</location>
+    </error-page>
+    <error-page>
+        <exception-type>java.lang.Throwable</exception-type>
+        <location>/error</location>
+    </error-page>
 </web-app>

@@ -5,16 +5,16 @@
     <modelVersion>4.0.0</modelVersion>
 
     <groupId>com.afterqcd</groupId>
-    <artifactId>study</artifactId>
+    <artifactId>study-spring</artifactId>
     <version>1.0-SNAPSHOT</version>
-    <packaging>pom</packaging>
-    <name>Study</name>
+    <name>Spring</name>
 
-    <modules>
-        <module>SpringAop</module>
-        <module>SpringRest</module>
-        <module>Shiro</module>
-        <module>Servlet</module>
-        <module>Spring</module>
-    </modules>
+    <dependencies>
+        <dependency>
+            <groupId>org.springframework</groupId>
+            <artifactId>spring-context</artifactId>
+            <version>4.1.6.RELEASE</version>
+        </dependency>
+    </dependencies>
+
 </project>

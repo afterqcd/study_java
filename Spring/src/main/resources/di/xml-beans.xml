@@ -10,41 +10,41 @@
     <!-- init-method等效于InitializingBean.afterPropertiesSet -->
     <!-- destroy-method等效于DisposableBean.destory -->
     <bean id="helloWorld"
-          class="com.afterqcd.study.spring.xml.HelloWorld" parent="baseHelloWorld"
+          class="com.afterqcd.study.spring.di.xml.HelloWorld" parent="baseHelloWorld"
           lazy-init="true" init-method="init" destroy-method="destroy" />
 
     <!-- scope默认为singleton只会产生一个bean实例; scope为prototype时,每次获取bean都会产生新的bean实例 -->
     <bean id="prototypeHelloWorld"
-          class="com.afterqcd.study.spring.xml.HelloWorld" parent="baseHelloWorld"
+          class="com.afterqcd.study.spring.di.xml.HelloWorld" parent="baseHelloWorld"
           scope="prototype" />
 
     <!-- 构造函数注入 -->
-    <bean id="constructorHelloWorld" class="com.afterqcd.study.spring.xml.HelloWorld">
+    <bean id="constructorHelloWorld" class="com.afterqcd.study.spring.di.xml.HelloWorld">
         <constructor-arg index="0" value="Hello Constructor" />
     </bean>
-    <bean id="constructorTextEditor" class="com.afterqcd.study.spring.xml.TextEditor">
+    <bean id="constructorTextEditor" class="com.afterqcd.study.spring.di.xml.TextEditor">
         <constructor-arg>
-            <bean class="com.afterqcd.study.spring.xml.SpellChecker" />
+            <bean class="com.afterqcd.study.spring.di.xml.SpellChecker" />
         </constructor-arg>
     </bean>
 
     <!-- 内部bean -->
-    <bean id="textEditor" class="com.afterqcd.study.spring.xml.TextEditor">
+    <bean id="textEditor" class="com.afterqcd.study.spring.di.xml.TextEditor">
         <property name="spellChecker">
-            <bean class="com.afterqcd.study.spring.xml.SpellChecker" />
+            <bean class="com.afterqcd.study.spring.di.xml.SpellChecker" />
         </property>
     </bean>
 
-    <bean id="address1" class="com.afterqcd.study.spring.xml.Address">
+    <bean id="address1" class="com.afterqcd.study.spring.di.xml.Address">
         <property name="value" value="China" />
     </bean>
 
-    <bean id="address2" class="com.afterqcd.study.spring.xml.Address">
+    <bean id="address2" class="com.afterqcd.study.spring.di.xml.Address">
         <property name="value" value="ChinaHK" />
     </bean>
 
     <!-- 注入集合 -->
-    <bean id="javaCollections" class="com.afterqcd.study.spring.xml.JavaCollections">
+    <bean id="javaCollections" class="com.afterqcd.study.spring.di.xml.JavaCollections">
         <property name="list">
             <list>
                 <value>INDIA</value>
@@ -84,15 +84,15 @@
     </bean>
 
     <!-- 注入空字符串 -->
-    <bean id="emptyHelloWorld" class="com.afterqcd.study.spring.xml.HelloWorld">
+    <bean id="emptyHelloWorld" class="com.afterqcd.study.spring.di.xml.HelloWorld">
         <property name="message" value="" />
     </bean>
 
     <!-- 注入null -->
-    <bean id="nullHelloWorld" class="com.afterqcd.study.spring.xml.HelloWorld">
+    <bean id="nullHelloWorld" class="com.afterqcd.study.spring.di.xml.HelloWorld">
         <property name="message"><null/></property>
     </bean>
 
     <!-- 拦截bean构造过程 -->
-    <bean class="com.afterqcd.study.spring.xml.BeanCreationLogging" />
+    <bean class="com.afterqcd.study.spring.di.xml.BeanCreationLogging" />
 </beans>

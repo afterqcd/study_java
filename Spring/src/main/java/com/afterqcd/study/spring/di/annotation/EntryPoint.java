@@ -1,4 +1,4 @@
-package com.afterqcd.study.spring.annotation;
+package com.afterqcd.study.spring.di.annotation;
 
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 
@@ -7,7 +7,7 @@ import org.springframework.context.support.ClassPathXmlApplicationContext;
  */
 public class EntryPoint {
     public static void main(String[] args) {
-        ClassPathXmlApplicationContext context = new ClassPathXmlApplicationContext("annotation/beans.xml");
+        ClassPathXmlApplicationContext context = new ClassPathXmlApplicationContext("di/annotation-beans.xml");
         context.getBean(TextEditor.class).spellCheck();
     }
 }

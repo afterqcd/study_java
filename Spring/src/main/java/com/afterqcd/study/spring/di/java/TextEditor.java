@@ -1,4 +1,4 @@
-package com.afterqcd.study.spring.annotation;
+package com.afterqcd.study.spring.di.java;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;

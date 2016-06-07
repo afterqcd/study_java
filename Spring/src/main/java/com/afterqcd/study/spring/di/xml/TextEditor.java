@@ -1,4 +1,4 @@
-package com.afterqcd.study.spring.xml;
+package com.afterqcd.study.spring.di.xml;
 
 /**
  * Created by afterqcd on 16/6/7.

@@ -1,4 +1,4 @@
-package com.afterqcd.study.spring.java;
+package com.afterqcd.study.spring.di.java;
 
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 

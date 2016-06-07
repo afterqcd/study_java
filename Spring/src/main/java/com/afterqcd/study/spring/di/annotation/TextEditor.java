@@ -1,8 +1,6 @@
-package com.afterqcd.study.spring.java;
+package com.afterqcd.study.spring.di.annotation;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Configurable;
-import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
 
 /**

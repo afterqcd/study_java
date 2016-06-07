@@ -1,4 +1,4 @@
-package com.afterqcd.study.spring.xml;
+package com.afterqcd.study.spring.di.xml;
 
 import java.util.List;
 import java.util.Map;

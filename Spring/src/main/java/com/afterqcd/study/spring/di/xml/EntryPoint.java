@@ -1,4 +1,4 @@
-package com.afterqcd.study.spring.xml;
+package com.afterqcd.study.spring.di.xml;
 
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 
@@ -7,7 +7,7 @@ import org.springframework.context.support.ClassPathXmlApplicationContext;
  */
 public class EntryPoint {
     public static void main(String[] args) {
-        ClassPathXmlApplicationContext context = new ClassPathXmlApplicationContext("xml/beans.xml");
+        ClassPathXmlApplicationContext context = new ClassPathXmlApplicationContext("di/xml-beans.xml");
         /*
            显示调用context.destroy或者注册ShutdownHook,才会触发bean.destroy-method;
            ShutdownHook内部只是简单调用了context.close

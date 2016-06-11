@@ -5,7 +5,6 @@ import com.mchange.v2.c3p0.ComboPooledDataSource;
 
 import java.beans.PropertyVetoException;
 import java.sql.Connection;
-import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -43,7 +42,7 @@ public class EntryPoint {
         PreparedStatement statement;
 
         try {
-            // 连接数据库
+            // 从连接池获取连接
             connection = DATA_SOURCE.getConnection();
 
             // 创建Statement
@@ -65,6 +64,7 @@ public class EntryPoint {
             System.out.println(students);
             resultSet.close();
             statement.close();
+            // 把连接返还连接池
             connection.close();
         } catch (SQLException e) {
             e.printStackTrace();

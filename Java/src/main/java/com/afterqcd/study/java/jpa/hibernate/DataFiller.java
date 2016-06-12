@@ -5,7 +5,6 @@ import com.afterqcd.study.java.jpa.hibernate.entity.Invoice;
 import com.afterqcd.study.java.jpa.hibernate.entity.Order;
 import com.afterqcd.study.java.jpa.hibernate.entity.OrderDetail;
 import com.afterqcd.study.java.jpa.hibernate.entity.Product;
-import com.google.common.collect.Lists;
 
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;

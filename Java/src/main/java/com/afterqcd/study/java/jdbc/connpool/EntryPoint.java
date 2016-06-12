@@ -39,7 +39,7 @@ public class EntryPoint {
 
     public static void main(String[] args) {
         Connection connection = null;
-        PreparedStatement statement;
+        PreparedStatement statement = null;
 
         try {
             // 从连接池获取连接
@@ -72,6 +72,9 @@ public class EntryPoint {
             try {
                 if (connection != null && !connection.isClosed()) {
                     connection.close();
+                }
+                if (statement != null && !statement.isClosed()) {
+                    statement.close();
                 }
             } catch (SQLException e) {
                 e.printStackTrace();

@@ -17,5 +17,6 @@
         <module>Servlet</module>
         <module>Spring</module>
         <module>Java</module>
+        <module>ElasticSearch</module>
     </modules>
 </project>

@@ -18,5 +18,7 @@
         <module>Spring</module>
         <module>Java</module>
         <module>ElasticSearch</module>
+        <module>Scala</module>
+        <module>Spark</module>
     </modules>
 </project>

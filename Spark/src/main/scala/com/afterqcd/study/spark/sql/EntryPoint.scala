@@ -1,6 +1,6 @@
 package com.afterqcd.study.spark.sql
 
-import org.apache.spark.sql.{Dataset, SQLContext}
+import org.apache.spark.sql.SQLContext
 import org.apache.spark.{SparkConf, SparkContext}
 
 /**

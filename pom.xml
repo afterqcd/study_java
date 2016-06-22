@@ -20,5 +20,6 @@
         <module>ElasticSearch</module>
         <module>Scala</module>
         <module>Spark</module>
+        <module>Servlet3</module>
     </modules>
 </project>

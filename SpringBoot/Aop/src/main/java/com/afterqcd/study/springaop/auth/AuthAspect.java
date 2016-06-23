@@ -20,7 +20,7 @@ public class AuthAspect {
     @Value("${auth.password}")
     private String password;
 
-    @Before("@annotation(AuthRequired)")
+    @Before("@annotation(com.afterqcd.study.springaop.auth.AuthRequired)")
     public void authorize(JoinPoint joinPoint) {
         if (!name.equals("test") || !password.equals("test")) {
             throw new RuntimeException("Failed to authorizing");

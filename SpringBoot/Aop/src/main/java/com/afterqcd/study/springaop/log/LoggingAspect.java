@@ -15,7 +15,7 @@ import java.util.Arrays;
 @Order(100)
 @Component
 public class LoggingAspect {
-    @Before(value = "@annotation(LoggingRequired)")
+    @Before(value = "@annotation(com.afterqcd.study.springaop.log.LoggingRequired)")
     public void logging(JoinPoint joinPoint) {
         System.out.println(joinPoint.toShortString() + " with argument(s) " + Arrays.toString(joinPoint.getArgs()));
     }

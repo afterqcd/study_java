@@ -6,7 +6,7 @@ import org.apache.spark.{SparkConf, SparkContext}
 /**
   * Created by afterqcd on 16/6/21.
   */
-object EntryPoint {
+object Core {
 
   def main(args: Array[String]) {
     val sc = createSparkContext("sql", "local[4]")
@@ -26,7 +26,7 @@ object EntryPoint {
   }
 
   private def createDataFrame(sqlContext: SQLContext): Unit = {
-    val file = getClass.getClassLoader.getResource("people.json").getPath
+    val file = resourceFile("people.json")
     val people = sqlContext.read.json(file).cache()
     people.show()
     people.printSchema()
@@ -35,8 +35,12 @@ object EntryPoint {
     people.filter(people("age") > 21).show()
   }
 
+  private def resourceFile(name: String) = {
+    getClass.getClassLoader.getResource(name).getPath
+  }
+
   private def executeSql(sqlContext: SQLContext) = {
-    val file = getClass.getClassLoader.getResource("people.json").getPath
+    val file = resourceFile("people.json")
     val people = sqlContext.read.json(file)
     people.createOrReplaceTempView("people")
 
@@ -47,7 +51,7 @@ object EntryPoint {
   }
 
   private def createDataSet(sqlContext: SQLContext) = {
-    val file = getClass.getClassLoader.getResource("people.json").getPath
+    val file = resourceFile("people.json")
     import sqlContext.implicits._
 //    val people = sqlContext.read.json(file).as[People].cache() // Dataset[People]
     val people = sqlContext.sql(s"SELECT age, name FROM json.`$file` WHERE age > 10").as[People] // Dataset[People]
@@ -60,6 +64,6 @@ object EntryPoint {
     val people = peopleRdd.toDS() // Dataset[People]
     people.show()
   }
-}
 
-case class People(age: Option[Long], name: String)
+  case class People(age: Option[Long], name: String)
+}

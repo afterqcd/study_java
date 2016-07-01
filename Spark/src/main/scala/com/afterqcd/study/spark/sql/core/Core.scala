@@ -1,4 +1,4 @@
-package com.afterqcd.study.spark.sql
+package com.afterqcd.study.spark.sql.core
 
 import org.apache.spark.sql.SQLContext
 import org.apache.spark.{SparkConf, SparkContext}
@@ -42,9 +42,8 @@ object Core {
   private def executeSql(sqlContext: SQLContext) = {
     val file = resourceFile("people.json")
     val people = sqlContext.read.json(file)
-    people.createOrReplaceTempView("people")
+    people.registerTempTable("people")
 
-    import sqlContext.implicits._
     val teenagers = sqlContext.sql("SELECT name, age FROM people WHERE age >= 13 AND age <= 19").cache()
     teenagers.show()
     teenagers.map(_.getAs[String]("name")).collect().foreach(println)
@@ -65,5 +64,9 @@ object Core {
     people.show()
   }
 
-  case class People(age: Option[Long], name: String)
+
 }
+
+
+
+

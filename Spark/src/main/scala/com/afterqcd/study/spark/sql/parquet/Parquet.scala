@@ -1,7 +1,7 @@
-package com.afterqcd.study.spark.sql
+package com.afterqcd.study.spark.sql.parquet
 
-import org.apache.spark.sql.{SaveMode, Dataset, SQLContext}
-import org.apache.spark.{SparkContext, SparkConf}
+import org.apache.spark.sql.{DataFrame, SQLContext}
+import org.apache.spark.{SparkConf, SparkContext}
 
 /**
   * Created by afterqcd on 16/6/28.
@@ -12,7 +12,7 @@ object Parquet {
     val sc = createSparkContext("parquet", "local[1]")
     val sqlContext = new SQLContext(sc)
 
-//    write(sc, sqlContext)
+    write(sc, sqlContext)
     read(sqlContext)
   }
 
@@ -36,10 +36,9 @@ object Parquet {
     ))
 
     import sqlContext.implicits._
-    val people: Dataset[People] = peopleRDD.toDS()
+    val people: DataFrame = peopleRDD.toDF()
     people.write
       .partitionBy("gender", "country")
-      .mode(SaveMode.Append)
       .parquet("people.parquet")
   }
 
@@ -49,8 +48,8 @@ object Parquet {
     people.printSchema()
     people.show()
   }
-
-  case class People(name: String, age: Int, gender: String, country: String)
 }
+
+
 
 

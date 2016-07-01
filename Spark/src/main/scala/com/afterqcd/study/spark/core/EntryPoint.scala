@@ -56,8 +56,8 @@ object EntryPoint {
     val elems = sc.parallelize(Seq(1, 3, 5, 7, 2, 4, 6, 1, 3)).cache()
     println("Sum by RDD.reduce " + elems.reduce(_ + _))
 
-    val acc = sc.longAccumulator
+    val acc = sc.accumulator(0L)
     elems.foreach(acc.add(_))
-    println("Sum by accumulator " + acc.sum)
+    println("Sum by accumulator " + acc.value)
   }
 }

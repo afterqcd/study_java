@@ -21,5 +21,6 @@
         <module>Servlet3</module>
         <module>SpringMVC</module>
         <module>SpringBoot</module>
+        <module>Hadoop</module>
     </modules>
 </project>

@@ -62,6 +62,7 @@ public class SubDocumentDemo {
                 .execute();
         System.out.println("get(addresses.billing.country) => " + fragment.content(0));
         System.out.println("exists(purchases.complete[1]) => " + fragment.content(1));
+        System.out.println("cas => " + fragment.cas());
     }
 
     private static void mutate(Bucket bucket) {
@@ -82,6 +83,7 @@ public class SubDocumentDemo {
         bucket.mutateIn("c:dr")
                 .arrayAppend("purchases.complete", 777, false)
                 .arrayAddUnique("purchases.abandoned", 45, false)
+                //.withCas(123L)
                 .execute();
 
         DocumentFragment<Lookup> fragment = bucket.lookupIn("c:dr")

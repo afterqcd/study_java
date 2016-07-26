@@ -22,5 +22,6 @@
         <module>SpringMVC</module>
         <module>SpringBoot</module>
         <module>Hadoop</module>
+        <module>Couchbase</module>
     </modules>
 </project>

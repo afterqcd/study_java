@@ -40,7 +40,7 @@ public class Authentication implements CommandLineRunner {
         String directory = args[2];
 
         Configuration conf = new Configuration();
-        
+
         conf.set("fs.default.name", "hdfs://10.97.11.1:9020");
         FileSystem hdfs = FileSystem.get(new URI("hdfs://10.97.11.1:9020"), conf, user);
 

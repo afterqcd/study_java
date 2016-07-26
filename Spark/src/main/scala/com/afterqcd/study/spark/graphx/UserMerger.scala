@@ -30,7 +30,6 @@ object UserMerger {
     val graph = Graph(nodes, relationships)
     val userGraph = graph.subgraph(vpred = (_, d) => d.isInstanceOf[Member[Any]])
     graph.connectedComponents().mask(userGraph).vertices.collect().foreach(println)
-    graph.joinVertices()
   }
 
   private def createSparkContext(appName: String, master: String): SparkContext = {

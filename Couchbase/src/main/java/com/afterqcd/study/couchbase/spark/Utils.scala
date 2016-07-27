@@ -7,6 +7,6 @@ object Utils {
   def elapse(action: => Unit): Unit = {
     val start = System.currentTimeMillis()
     action
-    println(s"Elapsed time ${System.currentTimeMillis() - start}")
+    println(s"Elapsed time ${System.currentTimeMillis() - start}ms")
   }
 }

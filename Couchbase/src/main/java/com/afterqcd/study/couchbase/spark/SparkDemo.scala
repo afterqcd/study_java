@@ -2,7 +2,8 @@ package com.afterqcd.study.couchbase.spark
 
 import com.couchbase.client.java.CouchbaseCluster
 import com.couchbase.client.java.query.N1qlQuery
-import com.couchbase.spark.rdd.QueryRDD
+import com.couchbase.client.java.view.ViewQuery
+import com.couchbase.spark.rdd.{ViewRDD, QueryRDD}
 import org.apache.spark.sql.SQLContext
 import org.apache.spark.sql.sources.EqualTo
 import org.apache.spark.{SparkConf, SparkContext}
@@ -13,19 +14,34 @@ import Utils._
 /**
   * Created by afterqcd on 16/7/21.
   */
-object EntryPoint {
+object SparkDemo {
 
   def main(args: Array[String]) {
     val sc = createSparkContext
 
+    println("open bucket")
+    elapse { openBucket(sc) }
+
+    println("stats by local file")
+    elapse(statsByLocalFiles(sc))
+
+    println("stats by view rdd")
+    elapse { statsByViewRdd(sc) }
+
     println("stats by query rdd")
     elapse { statsByQueryRdd(sc) }
 
-    println("stats by spark sql")
-    elapse { statsBySparkSql(sc) }
-
     println("stats by N1ql join")
     statsByN1qlJoin()
+
+    println("stats by spark sql")
+    elapse { statsBySparkSql(sc) }
+  }
+
+  private def openBucket(sc: SparkContext): Unit = {
+    QueryRDD(sc, "travel-sample",
+      N1qlQuery.simple("select META(`travel-sample`).id as airlineid from `travel-sample` where type = 'airline'")
+    ).count()
   }
 
   private def createSparkContext: SparkContext = {
@@ -85,6 +101,52 @@ object EntryPoint {
     val count = routes.mapPartitions { rows =>
       val airLineMap = bcAirlines.value
       rows.flatMap(r => airLineMap.get(r.value.getString("airlineid")))
+    }.countByValue()
+
+    println(count)
+  }
+
+  private def statsByViewRdd(sc: SparkContext): Unit = {
+    val airLines = QueryRDD(sc, "travel-sample",
+      N1qlQuery.simple("select META(`travel-sample`).id as airlineid, country from `travel-sample` where type = 'airline'")
+    ).map(row => (row.value.getString("airlineid"), row.value.getString("country"))).collectAsMap()
+
+    val bcAirlines = sc.broadcast(airLines)
+    val query = ViewQuery.from("travel", "travel_airline").reduce(false)
+    val routes = ViewRDD(sc, "travel-sample",
+      query
+    )
+    val count = routes.mapPartitions { rows =>
+      val airLineMap = bcAirlines.value
+      rows.flatMap(r => airLineMap.get(r.key.toString))
+    }.countByValue()
+
+    println(count)
+  }
+
+  private def outputFiles(sc: SparkContext): Unit = {
+    val routes = ViewRDD(sc, "travel-sample",
+      ViewQuery.from("travel", "travel_airline").reduce(false)
+    ).map(_.key.toString)
+    routes.saveAsTextFile("routes")
+
+    val airLines = QueryRDD(sc, "travel-sample",
+      N1qlQuery.simple("select META(`travel-sample`).id as airlineid, country from `travel-sample` where type = 'airline'")
+    ).map(row => row.value.getString("airlineid") + "," + row.value.getString("country"))
+    airLines.saveAsTextFile("airlines")
+  }
+
+  private def statsByLocalFiles(sc: SparkContext): Unit = {
+    val routes = sc.textFile("routes")
+    val airLines = sc.textFile("airlines").map { l =>
+      val elems = l.split(",")
+      (elems(0), elems(1))
+    }.collectAsMap()
+    val bcAirlines = sc.broadcast(airLines)
+
+    val count = routes.mapPartitions { rows =>
+      val airLineMap = bcAirlines.value
+      rows.flatMap(r => airLineMap.get(r))
     }.countByValue()
 
     println(count)

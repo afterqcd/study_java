@@ -16,6 +16,7 @@ object EntryPoint {
     createRddFromTextFile(sc)
     pairFunction(sc)
     sumByAccumulator(sc)
+    customDelimiter(sc)
 
     sc.stop()
   }
@@ -59,5 +60,11 @@ object EntryPoint {
     val acc = sc.accumulator(0L)
     elems.foreach(acc.add(_))
     println("Sum by accumulator " + acc.value)
+  }
+
+  private def customDelimiter(sc: SparkContext) = {
+    sc.textFile("text").foreach(println)
+    sc.hadoopConfiguration.set("textinputformat.record.delimiter", "#")
+    sc.textFile("text").foreach(println)
   }
 }

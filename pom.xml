@@ -23,5 +23,6 @@
         <module>SpringBoot</module>
         <module>Hadoop</module>
         <module>Couchbase</module>
+        <module>RxJava</module>
     </modules>
 </project>

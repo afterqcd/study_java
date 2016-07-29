@@ -13,7 +13,7 @@ import java.util.concurrent.Executors;
 /**
  * Created by afterqcd on 16/7/27.
  */
-public class ParallelDemo {
+public class ThreadModelDemo {
     private static Scheduler scheduler1 = Schedulers.from(
             Executors.newFixedThreadPool(
                     10,
@@ -22,10 +22,10 @@ public class ParallelDemo {
     );
 
     public static void main(String[] args) throws Exception {
-        tps(100000, ParallelDemo::testWithoutIo);
-        tps(500, ParallelDemo::testIoOnCurrentThread);
-        tps(500, ParallelDemo::testIoOnScheduler);
-        tps(50, ParallelDemo::testIoOnSchedulerWithMultiObservables);
+        tps(100000, ThreadModelDemo::testWithoutIo);
+        tps(500, ThreadModelDemo::testIoOnCurrentThread);
+        tps(500, ThreadModelDemo::testIoOnScheduler);
+        tps(50, ThreadModelDemo::testIoOnSchedulerWithMultiObservables);
         testThreadModel();
     }
 

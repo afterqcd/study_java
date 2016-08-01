@@ -22,17 +22,17 @@ object SparkDemo {
     println("open bucket")
     elapse { openBucket(sc) }
 
-    println("stats by local file")
-    elapse(statsByLocalFiles(sc))
+//    println("stats by local file")
+//    elapse(statsByLocalFiles(sc))
 
-    println("stats by view rdd")
-    elapse { statsByViewRdd(sc) }
-
-    println("stats by query rdd")
-    elapse { statsByQueryRdd(sc) }
-
-    println("stats by N1ql join")
-    statsByN1qlJoin()
+//    println("stats by view rdd")
+//    elapse { statsByViewRdd(sc) }
+//
+//    println("stats by query rdd")
+//    elapse { statsByQueryRdd(sc) }
+//
+//    println("stats by N1ql join")
+//    statsByN1qlJoin()
 
     println("stats by spark sql")
     elapse { statsBySparkSql(sc) }
@@ -45,9 +45,10 @@ object SparkDemo {
   }
 
   private def createSparkContext: SparkContext = {
-    val conf = new SparkConf().setAppName("Spark on Couchbase").setMaster("local[1]")
+    val conf = new SparkConf().setAppName("Spark on Couchbase").setMaster("local[2]")
       .set("com.couchbase.bucket.travel-sample", "")
       .set("com.couchbase.nodes", "172.16.185.248")
+      .set("spark.sql.shuffle.partitions", "2")
     val sc = new SparkContext(conf)
     sc
   }
@@ -79,7 +80,7 @@ object SparkDemo {
     val airlines = sql.read.couchbase(schemaFilter = EqualTo("type", "airline"))
     val routes = sql.read.couchbase(schemaFilter = EqualTo("type", "route"))
 
-    val count = routes.select("airlineid").repartition(10).join(
+    val count = routes.select("airlineid").join(
       airlines.selectExpr("META_ID as airlineid", "country"),
       usingColumn = "airlineid"
     ).map(r => r.getAs[String]("country")).countByValue()

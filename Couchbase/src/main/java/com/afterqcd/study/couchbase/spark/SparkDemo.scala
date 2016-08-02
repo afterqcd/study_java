@@ -25,14 +25,14 @@ object SparkDemo {
 //    println("stats by local file")
 //    elapse(statsByLocalFiles(sc))
 
-//    println("stats by view rdd")
-//    elapse { statsByViewRdd(sc) }
-//
-//    println("stats by query rdd")
-//    elapse { statsByQueryRdd(sc) }
-//
-//    println("stats by N1ql join")
-//    statsByN1qlJoin()
+    println("stats by view rdd")
+    elapse { statsByViewRdd(sc) }
+
+    println("stats by query rdd")
+    elapse { statsByQueryRdd(sc) }
+
+    println("stats by N1ql join")
+    statsByN1qlJoin()
 
     println("stats by spark sql")
     elapse { statsBySparkSql(sc) }

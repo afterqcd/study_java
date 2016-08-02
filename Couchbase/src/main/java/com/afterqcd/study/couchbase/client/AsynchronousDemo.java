@@ -13,7 +13,7 @@ import java.util.concurrent.TimeUnit;
  */
 public class AsynchronousDemo {
     public static void main(String[] args) {
-        CouchbaseCluster cluster = CouchbaseCluster.create("172.16.185.248");
+        CouchbaseCluster cluster = CouchbaseCluster.create("192.168.1.136", "192.168.1.137");
         Bucket bucket = cluster.openBucket("users");
 
         try {
@@ -26,32 +26,27 @@ public class AsynchronousDemo {
     }
 
     private static void getSync(Bucket bucket) {
+        final long start = System.currentTimeMillis();
         Observable
-                .range(2000, 50)
+                .range(7000, 100)
                 .map(i -> Integer.toString(i))
-                .map(i -> {
-                    System.out.println("to get user " + i + " at " + System.currentTimeMillis());
-                    return bucket.get(i);
-                })
-                .subscribe(
-                        u -> System.out.println("got arthur " + u.id() + " at " + System.currentTimeMillis())
-                );
+                .map(bucket::get)
+                .subscribe(u -> {});
+
+        System.out.println("Elapsed time " + (System.currentTimeMillis() - start) + "ms");
     }
 
     private static void getAsync(Bucket bucket) {
-        final CountDownLatch latch = new CountDownLatch(1);
+        final long start = System.currentTimeMillis();
 
+        final CountDownLatch latch = new CountDownLatch(1);
         Observable
-                .range(1000, 50)
+                .range(3000, 100)
                 .map(i -> Integer.toString(i))
-                .flatMap(i -> {
-                    System.out.println("to get user " + i + " at " + System.currentTimeMillis());
-                    return bucket.async().get(i);
-                })
+                .flatMap(i -> bucket.async().get(i))
                 .subscribe(
-                        u -> System.out.println("got user " + u.id() + " at " + System.currentTimeMillis()),
-                        e -> {
-                        },
+                        u -> {},
+                        e -> {},
                         latch::countDown
                 );
 
@@ -60,6 +55,8 @@ public class AsynchronousDemo {
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
+
+        System.out.println("Elapsed time " + (System.currentTimeMillis() - start) + "ms");
     }
 
     private static void getAsyncWithRetry(Bucket bucket) {
@@ -70,7 +67,7 @@ public class AsynchronousDemo {
         Observable
                 .range(1000, 10)
                 .map(i -> Integer.toString(i))
-                .concatMap(i -> bucket
+                .flatMap(i -> bucket
                         .async()
                         .get(i)
                         .doOnNext(d -> {

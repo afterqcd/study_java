@@ -6,14 +6,19 @@ import com.couchbase.client.java.document.JsonDocument;
 import com.couchbase.client.java.document.json.JsonObject;
 import com.google.common.collect.Maps;
 import com.google.gson.Gson;
+import org.apache.commons.lang3.SystemUtils;
 import org.apache.commons.lang3.time.DateUtils;
+import rx.Observable;
+import rx.Subscriber;
 
 import static java.lang.Math.*;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
+import java.util.concurrent.CountDownLatch;
 
 /**
  * Created by afterqcd on 16/7/26.
@@ -22,29 +27,87 @@ public class DataSetup {
     private static final Gson GSON = new Gson();
 
     private static final String[] COUNTRIES = new String[] {
-            "USA","GB","FR","ES","PO","BR","RU"
+            "USA", "GB", "FR", "ES", "PO", "BR", "RU"
     };
 
     private static final String[] OFFERS = new String[] {
             "324-567-343", "888-756-343", "343-645-121",
-            "691-809-507", "192-343-572" ,"298-897-673"
+            "691-809-507", "192-343-572", "298-897-673"
     };
 
     private static final SimpleDateFormat SDF = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 
     public static void main(String[] args) {
-        CouchbaseCluster cluster = CouchbaseCluster.create("172.16.185.248");
+        CouchbaseCluster cluster = CouchbaseCluster.create("192.168.1.136", "192.168.1.137");
         Bucket bucket = cluster.openBucket("users");
 
         try {
-            for (int i = 0; i < 10000; i++) {
-                bucket.insert(JsonDocument.create(
-                        Integer.toString(i), JsonObject.fromJson(GSON.toJson(generateUser()))
-                ));
-            }
+            syncWrite(bucket);
+            asyncWrite(bucket);
         } finally {
             cluster.disconnect();
         }
+    }
+
+    private static void asyncWrite(Bucket bucket) {
+        System.out.println("Start async write");
+
+        final long start = System.currentTimeMillis();
+
+        final CountDownLatch latch = new CountDownLatch(1);
+        Observable
+                .range(0, 10050)
+                .flatMap(i -> bucket.async().upsert(
+                        JsonDocument.create(
+                                Integer.toString(i),
+                                JsonObject.fromJson(GSON.toJson(generateUser())
+                                )
+                        ))
+                )
+                .buffer(100)
+                .subscribe(new Subscriber<List<JsonDocument>>() {
+                    @Override
+                    public void onStart() {
+                        request(100);
+                    }
+
+                    @Override
+                    public void onCompleted() {
+                        latch.countDown();
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+                        e.printStackTrace();
+                    }
+
+                    @Override
+                    public void onNext(List<JsonDocument> jsonDocuments) {
+                        request(100);
+                    }
+                });
+
+        try {
+            latch.await();
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+
+        System.out.println("Completed");
+        System.out.println("Elapsed time " + (System.currentTimeMillis() - start) + "ms");
+    }
+
+    private static void syncWrite(Bucket bucket) {
+        System.out.println("Start sync write");
+
+        long start = System.currentTimeMillis();
+        for (int i = 0; i < 10000; i++) {
+            bucket.upsert(JsonDocument.create(
+                    Integer.toString(i), JsonObject.fromJson(GSON.toJson(generateUser()))
+            ));
+        }
+        System.out.println("Completed");
+        System.out.println("Elapsed time " + (System.currentTimeMillis() - start) + "ms");
     }
 
     private static Map<String, Object> generateUser() {

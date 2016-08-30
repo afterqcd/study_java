@@ -5,9 +5,6 @@ import org.apache.hadoop.conf.Configuration;
 import org.apache.hadoop.fs.FileStatus;
 import org.apache.hadoop.fs.FileSystem;
 import org.apache.hadoop.fs.Path;
-import org.springframework.boot.CommandLineRunner;
-import org.springframework.boot.SpringApplication;
-import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 import java.io.IOException;
 import java.net.URI;
@@ -17,17 +14,15 @@ import java.util.Set;
 /**
  * Created by afterqcd on 16/7/19.
  */
-@SpringBootApplication
-public class Authentication implements CommandLineRunner {
+public class Authentication {
 
-    private final Set<String> actions = Sets.newHashSet("ls", "mkdir");
+    private static final Set<String> actions = Sets.newHashSet("ls", "mkdir");
 
-    public static void main(String[] args) {
-        SpringApplication.run(Authentication.class, args);
+    public static void main(String[] args) throws Exception {
+        run(args);
     }
 
-    @Override
-    public void run(String... args) throws Exception {
+    public static void run(String... args) throws Exception {
         System.out.println(Arrays.toString(args));
 
         if (args.length < 3 || !actions.contains(args[1])) {
@@ -44,18 +39,14 @@ public class Authentication implements CommandLineRunner {
         conf.set("fs.default.name", "hdfs://10.97.11.1:9020");
         FileSystem hdfs = FileSystem.get(new URI("hdfs://10.97.11.1:9020"), conf, user);
 
-        switch (action) {
-        case "ls":
+        if (action.equals("ls")) {
             list(directory, hdfs);
-            break;
-        case "mkdir":
+        } else if (action.equals("mkdir")) {
             mkdir(directory, hdfs);
-            break;
-        default:
         }
     }
 
-    private void list(String directory, FileSystem hdfs) throws IOException {
+    private static void list(String directory, FileSystem hdfs) throws IOException {
         Path path = new Path(directory);
         FileStatus[] files = hdfs.listStatus(path);
         for (FileStatus file : files) {
@@ -63,7 +54,7 @@ public class Authentication implements CommandLineRunner {
         }
     }
 
-    private void mkdir(String directory, FileSystem hdfs) throws IOException {
+    private static void mkdir(String directory, FileSystem hdfs) throws IOException {
         Path path = new Path(directory);
         hdfs.mkdirs(path);
     }

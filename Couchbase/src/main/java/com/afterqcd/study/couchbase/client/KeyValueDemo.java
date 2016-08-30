@@ -5,6 +5,9 @@ import com.couchbase.client.java.CouchbaseCluster;
 import com.couchbase.client.java.document.JsonDocument;
 import com.couchbase.client.java.document.json.JsonArray;
 import com.couchbase.client.java.document.json.JsonObject;
+import com.google.common.collect.Maps;
+
+import java.util.Map;
 
 /**
  * Created by afterqcd on 16/7/25.

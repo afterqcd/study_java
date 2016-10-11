@@ -17,7 +17,7 @@ public class GsonDemo {
         readArray();
         readObject();
         readObjectByType();
-        dealWithStaticField();
+        dealWithFinalField();
     }
 
     private static void readArray() {
@@ -38,13 +38,13 @@ public class GsonDemo {
         System.out.println(people.getName());
     }
 
-    private static void dealWithStaticField() {
-        Gson writeWithStaticFieldGson = new GsonBuilder().excludeFieldsWithModifiers(Modifier.TRANSIENT).create();
+    private static void dealWithFinalField() {
         People people = new People();
         people.setName("zhangsan");
-        System.out.println(writeWithStaticFieldGson.toJson(people));
+        System.out.println(gson.toJson(people));
 
         People people1 = gson.fromJson("{\"type\":\"People\",\"name\":\"zhangsan\"}", People.class);
         System.out.println(people1.getName());
+        System.out.println(people1.type);
     }
 }

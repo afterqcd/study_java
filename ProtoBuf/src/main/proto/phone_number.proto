@@ -1,0 +1,14 @@
+syntax = "proto3";
+
+package com.afterqcd.study.protobuf;
+
+message PhoneNumber {
+    enum PhoneType {
+        MOBILE = 0;
+        HOME = 1;
+        WORK = 2;
+    }
+
+    string number = 1;
+    PhoneType type = 2;
+}

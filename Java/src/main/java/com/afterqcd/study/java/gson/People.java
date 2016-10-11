@@ -4,7 +4,7 @@ package com.afterqcd.study.java.gson;
  * Created by afterqcd on 16/8/18.
  */
 public class People {
-    public final static String type = "People";
+    public final String type = "People";
 
     private String name;
 

@@ -24,5 +24,6 @@
         <module>Hadoop</module>
         <module>Couchbase</module>
         <module>RxJava</module>
+        <module>ProtoBuf</module>
     </modules>
 </project>

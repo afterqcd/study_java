@@ -30,6 +30,11 @@
             <artifactId>spark-graphx_2.10</artifactId>
             <version>1.6.1</version>
         </dependency>
+        <dependency>
+            <groupId>com.google.code.gson</groupId>
+            <artifactId>gson</artifactId>
+            <version>2.3.1</version>
+        </dependency>
     </dependencies>
 
     <build>

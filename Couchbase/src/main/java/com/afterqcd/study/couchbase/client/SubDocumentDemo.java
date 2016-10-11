@@ -6,13 +6,15 @@ import com.couchbase.client.java.CouchbaseCluster;
 import com.couchbase.client.java.document.JsonDocument;
 import com.couchbase.client.java.document.json.JsonObject;
 import com.couchbase.client.java.subdoc.DocumentFragment;
+import org.apache.commons.lang3.builder.ToStringBuilder;
+import org.apache.commons.lang3.builder.ToStringStyle;
 
 /**
  * Created by afterqcd on 16/7/25.
  */
 public class SubDocumentDemo {
     public static void main(String[] args) {
-        CouchbaseCluster cluster = CouchbaseCluster.create("172.16.185.248");
+        CouchbaseCluster cluster = CouchbaseCluster.create("172.16.185.239");
         Bucket bucket = cluster.openBucket("default");
 
         try {
@@ -83,7 +85,6 @@ public class SubDocumentDemo {
         bucket.mutateIn("c:dr")
                 .arrayAppend("purchases.complete", 777, false)
                 .arrayAddUnique("purchases.abandoned", 45, false)
-                //.withCas(123L)
                 .execute();
 
         DocumentFragment<Lookup> fragment = bucket.lookupIn("c:dr")

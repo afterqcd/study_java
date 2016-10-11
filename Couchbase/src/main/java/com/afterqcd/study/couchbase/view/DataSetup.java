@@ -38,11 +38,11 @@ public class DataSetup {
     private static final SimpleDateFormat SDF = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 
     public static void main(String[] args) {
-        CouchbaseCluster cluster = CouchbaseCluster.create("192.168.1.136", "192.168.1.137");
+        CouchbaseCluster cluster = CouchbaseCluster.create("172.16.185.239");
         Bucket bucket = cluster.openBucket("users");
 
         try {
-            syncWrite(bucket);
+//            syncWrite(bucket);
             asyncWrite(bucket);
         } finally {
             cluster.disconnect();

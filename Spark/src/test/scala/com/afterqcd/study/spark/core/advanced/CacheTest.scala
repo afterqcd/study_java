@@ -11,6 +11,7 @@ class CacheTest extends SparkTest {
     val mapCount = sc.accumulator(0L)
     val doubledElems = elems.map { e =>
       mapCount += 1
+      println(s"${e * 2}")
       e * 2
     }
 
@@ -24,6 +25,7 @@ class CacheTest extends SparkTest {
     val mapCount = sc.accumulator(0L)
     val doubledElems = elems.map { e =>
       mapCount += 1
+      println(s"${e * 2}")
       e * 2
     }.cache()
 

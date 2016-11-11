@@ -71,7 +71,6 @@ class PerformanceTest extends FlatSpec with Matchers {
   "Protobuf" should "尽可能快地序列化" in {
     elapsed("Serialize by Protobuf") {
       duplicateInThreads(ThreadCount) {
-        LogEntryOuterClass.LogEntry.getDescriptor
         val message = LogEntryOuterClass.LogEntry.newBuilder()
           .setName("Jeff").setResource("readme.txt").setIp("192.168.1.1")
           .build()

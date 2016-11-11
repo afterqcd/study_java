@@ -13,7 +13,7 @@ class RddTransformTest extends SparkTest {
 
   it should "flatMap:将元素一对多转换并展开" in {
     val elems = sc.parallelize(Seq(1, 2, 3))
-    elems.flatMap(1 to _).collect() should contain theSameElementsAs Seq(1, 1, 2, 1, 2, 3)
+    elems.flatMap(elem => 1 to elem).collect() should contain theSameElementsAs Seq(1, 1, 2, 1, 2, 3)
 
     elems.flatMap { e =>
       if (e % 2 != 0) Some(e) else None

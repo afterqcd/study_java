@@ -7,14 +7,14 @@ import com.afterqcd.study.spark.SparkTest
   */
 class PairRddTest extends SparkTest {
   "PairRDDFunctions" should "combineByKey:按key化简元素，目标值与元素值类型可以不同" in {
-    val pairs = sc.parallelize(Seq(1, 2, 3, 4)).keyBy(_ % 2)
+    val pairs = sc.parallelize(Seq(1, 2, 3, 4, 5, 6)).keyBy(_ % 2)
     val combinedPairs = pairs.combineByKey(
       (e: Int) => e.toString,
       (s: String, e: Int) => s + e,
       (s1: String, s2: String) => s1 + s2
     ).collectAsMap()
 
-    combinedPairs(0) should contain theSameElementsAs Seq('2', '4')
+    combinedPairs(0) should contain theSameElementsAs Seq('2', '4', '6')
     combinedPairs(1) should contain theSameElementsAs Seq('1', '3')
   }
 

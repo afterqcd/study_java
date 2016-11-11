@@ -1,0 +1,10 @@
+{
+    "namespace": "com.afterqcd.study.serde.avro",
+    "name": "LogEntry",
+    "type": "record",
+    "fields": [
+        {"name": "name", "type": "string"},
+        {"name": "resource", "type": ["string", "null"], "default": null},
+        {"name": "ip", "type": ["string", "null"], "default": null}
+    ]
+}

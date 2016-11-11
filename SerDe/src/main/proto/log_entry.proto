@@ -1,0 +1,9 @@
+syntax = "proto3";
+
+package com.afterqcd.study.serde.protobuf;
+
+message LogEntry {
+    string name = 1;
+    string resource = 2;
+    string ip = 3;
+}

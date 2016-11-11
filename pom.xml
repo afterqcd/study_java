@@ -32,5 +32,6 @@
         <module>Couchbase</module>
         <module>RxJava</module>
         <module>ProtoBuf</module>
+        <module>SerDe</module>
     </modules>
 </project>

@@ -58,7 +58,6 @@ object Parquet {
   def readMemberBehavior(sqlContext: SQLContext): Unit = {
     val dates = Seq("20160830", "20160831", "20160901", "20160902", "20160903", "20160904", "20160905", "20160906", "20160907")
     val paths = dates.map("/Users/afterqcd/Desktop/normalized/" + _)
-
     val memberBehavior = sqlContext.read.parquet(paths: _*)
     memberBehavior.map { row =>
       MemberBehavior(

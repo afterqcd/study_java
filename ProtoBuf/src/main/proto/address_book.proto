@@ -1,9 +1,0 @@
-syntax = "proto3";
-
-package com.afterqcd.study.protobuf;
-
-import "person.proto";
-
-message AddressBook {
-    repeated com.afterqcd.study.protobuf.Person person = 1;
-}

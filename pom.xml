@@ -32,5 +32,6 @@
         <module>Couchbase</module>
         <module>RxJava</module>
         <module>SerDe</module>
+        <module>Kafka</module>
     </modules>
 </project>

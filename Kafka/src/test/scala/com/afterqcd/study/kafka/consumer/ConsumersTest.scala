@@ -4,7 +4,6 @@ import java.util.concurrent.CountDownLatch
 
 import com.afterqcd.study.kafka.builder.{ConsumersBuilder, ProducerBuilder}
 import com.afterqcd.study.kafka.model.LogEntryOuterClass
-import com.afterqcd.study.kafka.model.LogEntryOuterClass.LogEntry
 import com.afterqcd.study.kafka.{DeliverySemantics, KafkaIntegrationTest}
 import org.apache.kafka.clients.consumer.ConsumerRecord
 
@@ -29,15 +28,15 @@ class ConsumersTest extends KafkaIntegrationTest {
     val latch = new CountDownLatch(2)
     val records = ArrayBuffer.empty[ConsumerRecord[String, LogEntryOuterClass.LogEntry]]
 
-    val consumers = ConsumersBuilder[String, LogEntry]()
+    val consumers = ConsumersBuilder[String, LogEntryOuterClass.LogEntry]()
       .clientId("test_consumer")
       .bootstrapServers(kafkaUnit.bootstrapServers)
       .messageDeliverySemantics(deliverySemantics)
       .groupId("test")
       .subscribe(Seq("test"))
       .concurrency(1)
-      .recordListener(new IRecordListener[String, LogEntry] {
-        override def onRecord(record: ConsumerRecord[String, LogEntry]): Unit = {
+      .recordListener(new IRecordListener[String, LogEntryOuterClass.LogEntry] {
+        override def onRecord(record: ConsumerRecord[String, LogEntryOuterClass.LogEntry]): Unit = {
           records += record
           latch.countDown()
         }

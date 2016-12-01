@@ -23,7 +23,7 @@ object DeliverySemantics {
     * @param deliverySemantics
     * @return
     */
-  def propsFor(deliverySemantics: String): Properties = {
+  def propsForProducer(deliverySemantics: String): Properties = {
     deliverySemantics match {
       case AtMostOnce => propsForAtMostOnce
       case AtLeastOnce => propsForAtLeastOnce

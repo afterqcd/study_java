@@ -89,6 +89,6 @@ class DefaultProducer[K, V](val props: Properties, defaultTopic: Option[String])
 
   override protected def doClose(): Unit = {
     kafkaProducer.close()
-    println("closing")
+    println("producer closing")
   }
 }

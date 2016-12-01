@@ -21,5 +21,8 @@ trait CloseOnExit extends AutoCloseable { self =>
     }
   }
 
+  /**
+    * Actual closing.
+    */
   protected def doClose(): Unit
 }

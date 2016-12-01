@@ -3,6 +3,7 @@ package com.afterqcd.study.kafka.producer
 import java.util
 import java.util.Properties
 
+import com.afterqcd.study.kafka.builder.ProducerBuilder
 import com.afterqcd.study.kafka.model.LogEntryOuterClass
 import com.afterqcd.study.kafka.{DeliverySemantics, KafkaIntegrationTest}
 import org.apache.kafka.clients.consumer.{ConsumerConfig, KafkaConsumer}
@@ -14,7 +15,7 @@ class ProducerTest extends KafkaIntegrationTest {
   "DefaultProducer" should "生成合法Protobuf的消息" in {
     kafkaUnit.createTopic("test", 3, 1)
 
-    val producer = ProducerBuilder.newBuilder[String, LogEntryOuterClass.LogEntry]
+    val producer = ProducerBuilder[String, LogEntryOuterClass.LogEntry]()
       .clientId("test-producer")
       .bootstrapServers(kafkaUnit.bootstrapServers)
       .messageDeliverySemantics(DeliverySemantics.AtLeastOnce)

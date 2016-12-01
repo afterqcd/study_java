@@ -1,5 +1,6 @@
-package com.afterqcd.study.kafka.producer
+package com.afterqcd.study.kafka.builder
 
+import com.afterqcd.study.kafka.protobuf.ProtobufSerializer
 import com.google.protobuf.MessageLite
 import org.apache.kafka.common.serialization._
 
@@ -30,7 +31,7 @@ object Serializers {
     if (kafkaPredefinedSerializers.contains(clz)) {
       kafkaPredefinedSerializers(clz)
     } else if (classOf[MessageLite].isAssignableFrom(clz)) {
-      "com.afterqcd.study.kafka.protobuf.ProtobufSerializer"
+      classOf[ProtobufSerializer].getName
     } else {
       throw new IllegalArgumentException(s"${clz.getName} is not an supported key or value type")
     }

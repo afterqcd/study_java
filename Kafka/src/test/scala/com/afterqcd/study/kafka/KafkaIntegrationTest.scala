@@ -26,6 +26,13 @@ trait KafkaIntegrationTest extends FlatSpec with Matchers with BeforeAndAfterAll
     super.afterAll()
   }
 
+  /**
+    * Consume logs to the end of topic.
+    * @param consumer
+    * @tparam K
+    * @tparam V
+    * @return
+    */
   def consumeToEnd[K, V](consumer: KafkaConsumer[K, V]): ConsumerRecords[K, V] = {
     val consumerRecordsList = Stream.continually(consumer.poll(1000))
       .dropWhile(_.count() == 0).takeWhile(_.count() > 0)
@@ -35,5 +42,16 @@ trait KafkaIntegrationTest extends FlatSpec with Matchers with BeforeAndAfterAll
       .mapValues(_.asJava).asJava
 
     new ConsumerRecords[K, V](mergedConsumerRecords)
+  }
+
+  /**
+    * Convert ConsumerRecords to list of key value pair.
+    * @param records
+    * @tparam K
+    * @tparam V
+    * @return
+    */
+  def keyValueRecords[K, V](records: ConsumerRecords[K, V]): Seq[(K, V)] = {
+    records.asScala.map(r => (r.key(), r.value())).toSeq
   }
 }

@@ -10,7 +10,7 @@ public class ReEmitDemo {
         Observable<String> elems1 = Observable.just(1, 2, 3).map(i -> {
             System.out.println("elems1 emit " + i);
             return i.toString();
-        }).cache();
+        });
         Observable<String> elems2 = Observable.just(4, 5, 6).map(i -> {
             System.out.println("elems2 emit " + i);
             return i.toString();

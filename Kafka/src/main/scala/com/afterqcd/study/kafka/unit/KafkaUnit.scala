@@ -4,7 +4,6 @@ import java.net.ServerSocket
 import java.util.Properties
 
 import kafka.admin.{AdminUtils, RackAwareMode}
-import kafka.common.Topic
 import kafka.server.{KafkaConfig, KafkaServer}
 import kafka.utils.{CoreUtils, TestUtils}
 import org.apache.kafka.common.requests.MetadataResponse
@@ -112,6 +111,7 @@ class KafkaUnit {
       props.put(KafkaConfig.PortProp, port.toString)
       props.put(KafkaConfig.ListenersProp, s"PLAINTEXT://$host:$port")
       props.put(KafkaConfig.ControlledShutdownMaxRetriesProp, "0")
+      props.put(KafkaConfig.LogCleanerBackoffMsProp, "50")
 
       TestUtils.createServer(new KafkaConfig(props))
     }

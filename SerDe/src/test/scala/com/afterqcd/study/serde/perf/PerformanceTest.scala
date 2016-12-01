@@ -87,6 +87,7 @@ class PerformanceTest extends FlatSpec with Matchers {
   it should "尽可能快地反序列化" in {
     elapsed("Deserialize by Protobuf") {
       duplicateInThreads(ThreadCount) {
+        LogEntryOuterClass.LogEntry.parser()
         val message = LogEntryOuterClass.LogEntry.newBuilder()
           .setName("Jeff").setResource("readme.txt").setIp("192.168.1.1")
           .build()

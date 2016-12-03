@@ -1,13 +1,11 @@
 package com.afterqcd.study.kafka.consumer
 
-import java.util.concurrent.CountDownLatch
-
 import com.afterqcd.study.kafka.builder.{ConsumersBuilder, ProducerBuilder}
 import com.afterqcd.study.kafka.model.LogEntryOuterClass
+import com.afterqcd.study.kafka.model.LogEntryOuterClass.LogEntry
 import com.afterqcd.study.kafka.{DeliverySemantics, KafkaIntegrationTest}
 import org.apache.kafka.clients.consumer.ConsumerRecord
-
-import scala.collection.mutable.ArrayBuffer
+import rx.lang.scala.subjects.PublishSubject
 
 /**
   * Created by afterqcd on 2016/12/1.
@@ -25,23 +23,18 @@ class ConsumersTest extends KafkaIntegrationTest {
       .defaultTopic("test")
       .build()
 
-    val latch = new CountDownLatch(2)
-    val records = ArrayBuffer.empty[ConsumerRecord[String, LogEntryOuterClass.LogEntry]]
+    val records = PublishSubject[ConsumerRecord[String, LogEntryOuterClass.LogEntry]]
 
-    val consumers = ConsumersBuilder[String, LogEntryOuterClass.LogEntry]()
+    ConsumersBuilder[String, LogEntry]()
       .clientId("test_consumer")
       .bootstrapServers(kafkaUnit.bootstrapServers)
       .messageDeliverySemantics(deliverySemantics)
       .groupId("test")
       .subscribe(Seq("test"))
       .concurrency(1)
-      .recordListener(new IRecordListener[String, LogEntryOuterClass.LogEntry] {
-        override def onRecord(record: ConsumerRecord[String, LogEntryOuterClass.LogEntry]): Unit = {
-          records += record
-          latch.countDown()
-        }
-      }).build()
-    consumers.start()
+      //      .recordBatchListener(rs => rs.foreach(records.onNext))
+      .recordListener(records.onNext)
+      .build().start()
 
     val logEntryA = LogEntryOuterClass.LogEntry.newBuilder().setIp("127.0.0.1").build()
     val logEntryB = LogEntryOuterClass.LogEntry.newBuilder().setIp("localhost").build()
@@ -50,9 +43,7 @@ class ConsumersTest extends KafkaIntegrationTest {
     producer.sendDefault("b", logEntryB)
     producer.flush()
 
-    latch.await()
-
-    records.map(r => (r.key(), r.value())) should contain theSameElementsInOrderAs Seq(
+    records.take(2).map(r => (r.key(), r.value())).toList.toBlocking.first should contain theSameElementsInOrderAs Seq(
       ("a", logEntryA),
       ("b", logEntryB)
     )

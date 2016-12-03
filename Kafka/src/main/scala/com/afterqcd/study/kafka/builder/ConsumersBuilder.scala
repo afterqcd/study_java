@@ -3,11 +3,11 @@ package com.afterqcd.study.kafka.builder
 import java.util.Properties
 
 import com.afterqcd.study.kafka.DeliverySemantics
-import com.afterqcd.study.kafka.consumer.{DefaultConsumers, IConsumers, IRecordBatchListener, IRecordListener}
-import org.apache.kafka.clients.consumer.ConsumerConfig
+import com.afterqcd.study.kafka.consumer.{DefaultConsumers, IConsumers}
+import org.apache.kafka.clients.consumer.{ConsumerConfig, ConsumerRecord}
 
-import scala.reflect.ClassTag
 import scala.collection.JavaConverters._
+import scala.reflect.ClassTag
 
 /**
   * Created by afterqcd on 2016/12/1.
@@ -16,9 +16,9 @@ class ConsumersBuilder[K, V](val props: Properties, val keyClz: Class[K], val va
   extends Builder[ConsumersBuilder[K, V]] {
 
   private var topics: Option[Seq[String]] = None
-  private var recordBatchListener: Option[IRecordBatchListener[K, V]] = None
   private var concurrency: Option[Int] = None
-  private var recordListener: Option[IRecordListener[K, V]] = None
+  private var recordListener: Option[ConsumerRecord[K, V] => Unit] = None
+  private var recordBatchListener: Option[Seq[ConsumerRecord[K, V]] => Unit] = None
 
   prop(ConsumerConfig.AUTO_OFFSET_RESET_CONFIG, "earliest")
 
@@ -67,7 +67,7 @@ class ConsumersBuilder[K, V](val props: Properties, val keyClz: Class[K], val va
     * @param listener
     * @return
     */
-  def recordListener(listener: IRecordListener[K, V]): ConsumersBuilder[K, V] = {
+  def recordListener(listener: ConsumerRecord[K, V] => Unit): ConsumersBuilder[K, V] = {
     if (recordBatchListener.isDefined)
       throw new IllegalArgumentException(s"batchRecordListener has already been configured")
 
@@ -80,7 +80,7 @@ class ConsumersBuilder[K, V](val props: Properties, val keyClz: Class[K], val va
     * @param listener
     * @return
     */
-  def recordBatchListener(listener: IRecordBatchListener[K, V]): ConsumersBuilder[K, V] = {
+  def recordBatchListener(listener: Seq[ConsumerRecord[K, V]] => Unit): ConsumersBuilder[K, V] = {
     if (recordListener.isDefined)
       throw new IllegalArgumentException(s"recordListener has already been configured")
 
@@ -98,7 +98,7 @@ class ConsumersBuilder[K, V](val props: Properties, val keyClz: Class[K], val va
 
     props.put("topics", topics.get.mkString(","))
 
-//    props.put(ConsumerConfig.ENABLE_AUTO_COMMIT_CONFIG, "false")
+    props.put(ConsumerConfig.ENABLE_AUTO_COMMIT_CONFIG, "false")
     props.put("delivery.semantics", deliverySemantics.getOrElse(DeliverySemantics.AtLeastOnce))
 
     props.putAll(deserializerProps.asJava)
@@ -116,11 +116,13 @@ class ConsumersBuilder[K, V](val props: Properties, val keyClz: Class[K], val va
     )
   }
 
-  private def listener: Either[IRecordListener[K, V], IRecordBatchListener[K, V]] = {
+  private def listener: Seq[ConsumerRecord[K, V]] => Unit = {
     if (Seq(recordListener, recordBatchListener).forall(_.isEmpty))
       throw new IllegalArgumentException("No record listener is configured")
 
-    Either.cond(recordBatchListener.isDefined, recordBatchListener.get, recordListener.get)
+    recordBatchListener.getOrElse {
+      records => records.foreach(recordListener.get)
+    }
   }
 }
 

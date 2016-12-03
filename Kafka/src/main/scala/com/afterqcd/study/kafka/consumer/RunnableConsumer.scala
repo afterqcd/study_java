@@ -13,7 +13,7 @@ import scala.collection.JavaConverters._
 /**
   * Created by afterqcd on 2016/12/1.
   */
-class RunnableConsumer[K, V](props: Properties, listener: Either[IRecordListener[K, V], IRecordBatchListener[K, V]])
+class RunnableConsumer[K, V](props: Properties, recordsListener: Seq[ConsumerRecord[K, V]] => Unit)
   extends Runnable {
   val consumer = new KafkaConsumer[K, V](props)
   val topics = props.get("topics").toString.split(",").toSeq
@@ -68,19 +68,12 @@ class RunnableConsumer[K, V](props: Properties, listener: Either[IRecordListener
 
   private def consumeByDeliverySemantics(records: Seq[ConsumerRecord[K, V]]): Unit = {
     if (deliverySemantics.equals(DeliverySemantics.AtLeastOnce)) {
-      consume(records)
+      recordsListener(records)
       consumer.commitAsync()
     } else {
       doCommitSync()
-      consume(records)
+      recordsListener(records)
     }
-  }
-
-  private def consume(records: Seq[ConsumerRecord[K, V]]) = {
-    listener.fold(
-      recordListener => records.foreach(recordListener.onRecord),
-      recordBatchListener => recordBatchListener.onRecords(records)
-    )
   }
 
   def close(): Unit = {

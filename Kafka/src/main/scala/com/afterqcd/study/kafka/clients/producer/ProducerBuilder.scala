@@ -1,9 +1,8 @@
-package com.afterqcd.study.kafka.builder
+package com.afterqcd.study.kafka.clients.producer
 
 import java.util.Properties
 
-import com.afterqcd.study.kafka.DeliverySemantics
-import com.afterqcd.study.kafka.producer.{DefaultProducer, IProducer}
+import com.afterqcd.study.kafka.clients.{Builder, DeliverySemantics}
 import org.apache.kafka.clients.producer.ProducerConfig
 
 import scala.collection.JavaConverters._

@@ -1,4 +1,4 @@
-package com.afterqcd.study.kafka.producer
+package com.afterqcd.study.kafka.clients.producer
 
 import org.apache.kafka.clients.producer.RecordMetadata
 import org.apache.kafka.common.{Metric, MetricName}

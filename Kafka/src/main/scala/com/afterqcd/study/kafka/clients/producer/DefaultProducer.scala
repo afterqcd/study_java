@@ -1,4 +1,4 @@
-package com.afterqcd.study.kafka.producer
+package com.afterqcd.study.kafka.clients.producer
 
 import java.util.Properties
 

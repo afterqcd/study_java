@@ -1,4 +1,4 @@
-package com.afterqcd.study.kafka.builder
+package com.afterqcd.study.kafka.clients.producer
 
 import com.afterqcd.study.kafka.protobuf.ProtobufSerializer
 import com.google.protobuf.MessageLite

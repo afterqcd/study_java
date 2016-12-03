@@ -1,9 +1,9 @@
-package com.afterqcd.study.kafka.consumer
+package com.afterqcd.study.kafka.clients.consumer
 
 import java.util
 import java.util.Properties
 
-import com.afterqcd.study.kafka.DeliverySemantics
+import com.afterqcd.study.kafka.clients.DeliverySemantics
 import org.apache.kafka.clients.consumer.{CommitFailedException, ConsumerRebalanceListener, ConsumerRecord, KafkaConsumer}
 import org.apache.kafka.common.TopicPartition
 import org.apache.kafka.common.errors.WakeupException

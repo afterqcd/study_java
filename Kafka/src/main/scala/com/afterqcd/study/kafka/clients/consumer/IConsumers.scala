@@ -1,4 +1,4 @@
-package com.afterqcd.study.kafka.consumer
+package com.afterqcd.study.kafka.clients.consumer
 
 /**
   * Created by afterqcd on 2016/12/1.

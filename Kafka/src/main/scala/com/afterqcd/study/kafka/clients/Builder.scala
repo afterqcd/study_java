@@ -1,9 +1,8 @@
-package com.afterqcd.study.kafka.builder
+package com.afterqcd.study.kafka.clients
 
 import java.util.Properties
 
 import org.apache.kafka.clients.CommonClientConfigs
-import org.apache.kafka.clients.producer.ProducerConfig
 
 /**
   * Created by afterqcd on 2016/12/1.

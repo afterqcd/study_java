@@ -1,11 +1,11 @@
-package com.afterqcd.study.kafka.producer
+package com.afterqcd.study.kafka.clients.producer
 
 import java.util
 import java.util.Properties
 
-import com.afterqcd.study.kafka.builder.ProducerBuilder
 import com.afterqcd.study.kafka.model.LogEntryOuterClass
-import com.afterqcd.study.kafka.{DeliverySemantics, KafkaIntegrationTest}
+import com.afterqcd.study.kafka.KafkaIntegrationTest
+import com.afterqcd.study.kafka.clients.DeliverySemantics
 import org.apache.kafka.clients.consumer.{ConsumerConfig, KafkaConsumer}
 
 /**

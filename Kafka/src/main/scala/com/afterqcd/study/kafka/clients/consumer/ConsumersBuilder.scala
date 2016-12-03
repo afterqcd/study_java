@@ -1,9 +1,8 @@
-package com.afterqcd.study.kafka.builder
+package com.afterqcd.study.kafka.clients.consumer
 
 import java.util.Properties
 
-import com.afterqcd.study.kafka.DeliverySemantics
-import com.afterqcd.study.kafka.consumer.{DefaultConsumers, IConsumers}
+import com.afterqcd.study.kafka.clients.{Builder, DeliverySemantics}
 import org.apache.kafka.clients.consumer.{ConsumerConfig, ConsumerRecord}
 
 import scala.collection.JavaConverters._

@@ -1,9 +1,10 @@
-package com.afterqcd.study.kafka.consumer
+package com.afterqcd.study.kafka.clients.consumer
 
-import com.afterqcd.study.kafka.builder.{ConsumersBuilder, ProducerBuilder}
 import com.afterqcd.study.kafka.model.LogEntryOuterClass
 import com.afterqcd.study.kafka.model.LogEntryOuterClass.LogEntry
-import com.afterqcd.study.kafka.{DeliverySemantics, KafkaIntegrationTest}
+import com.afterqcd.study.kafka.clients.producer.ProducerBuilder
+import com.afterqcd.study.kafka.KafkaIntegrationTest
+import com.afterqcd.study.kafka.clients.DeliverySemantics
 import org.apache.kafka.clients.consumer.ConsumerRecord
 import rx.lang.scala.subjects.PublishSubject
 

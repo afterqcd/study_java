@@ -1,4 +1,4 @@
-package com.afterqcd.study.kafka
+package com.afterqcd.study.kafka.clients
 
 import java.util.Properties
 

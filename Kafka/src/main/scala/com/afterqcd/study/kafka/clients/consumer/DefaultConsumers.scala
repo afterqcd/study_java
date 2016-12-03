@@ -1,4 +1,4 @@
-package com.afterqcd.study.kafka.consumer
+package com.afterqcd.study.kafka.clients.consumer
 
 import java.util.Properties
 import java.util.concurrent.{Executors, TimeUnit}

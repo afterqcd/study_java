@@ -2,7 +2,7 @@ package com.afterqcd.study.kafka.clients.consumer
 
 import java.util.Properties
 
-import com.afterqcd.study.kafka.clients.{Builder, DeliverySemantics}
+import com.afterqcd.study.kafka.clients.DeliverySemantics
 import org.apache.kafka.clients.consumer.{ConsumerConfig, ConsumerRecord}
 
 import scala.collection.JavaConverters._
@@ -11,15 +11,58 @@ import scala.reflect.ClassTag
 /**
   * Created by afterqcd on 2016/12/1.
   */
-class ConsumersBuilder[K, V](val props: Properties, val keyClz: Class[K], val valueClz: Class[V])
-  extends Builder[ConsumersBuilder[K, V]] {
+class ConsumersBuilder[K, V](val props: Properties, val keyClz: Class[K], val valueClz: Class[V]) {
 
-  private var topics: Option[Seq[String]] = None
+  private var topics: Option[Array[String]] = None
   private var concurrency: Option[Int] = None
   private var recordListener: Option[ConsumerRecord[K, V] => Unit] = None
   private var recordBatchListener: Option[Seq[ConsumerRecord[K, V]] => Unit] = None
+  protected var deliverySemantics: Option[String] = None
 
   prop(ConsumerConfig.AUTO_OFFSET_RESET_CONFIG, "earliest")
+
+  /**
+    * Add property for producer.
+    * @param name
+    * @param value
+    * @return
+    */
+  def prop(name: String, value: String): ConsumersBuilder[K, V] = {
+    props.put(name, value)
+    this
+  }
+
+  /**
+    * Set client id.
+    * @param clientId
+    * @return
+    */
+  def clientId(clientId: String): ConsumersBuilder[K, V] = {
+    prop(ConsumerConfig.CLIENT_ID_CONFIG, clientId)
+    this
+  }
+
+  /**
+    * Set bootstrap servers.
+    * @param bootstrapServers
+    * @return
+    */
+  def bootstrapServers(bootstrapServers: String): ConsumersBuilder[K, V] = {
+    prop(ConsumerConfig.BOOTSTRAP_SERVERS_CONFIG, bootstrapServers)
+    this
+  }
+
+  /**
+    * Set message delivery semantics.
+    * DeliverySemantics.AtMostOnce: you can get quickest performance with possible lost
+    * DeliverySemantics.AtLeastOnce: you can get strongest durability with reduced performance
+    * @param deliverySemantics
+    * @return
+    */
+  def messageDeliverySemantics(deliverySemantics: String): ConsumersBuilder[K, V] = {
+    this.deliverySemantics = Some(deliverySemantics)
+    this
+  }
 
   /**
     * Set consumer group id.
@@ -46,7 +89,7 @@ class ConsumersBuilder[K, V](val props: Properties, val keyClz: Class[K], val va
     * @param topics
     * @return
     */
-  def subscribe(topics: Seq[String]): ConsumersBuilder[K, V] = {
+  def subscribe(topics: Array[String]): ConsumersBuilder[K, V] = {
     this.topics = Some(topics)
     this
   }
@@ -61,6 +104,11 @@ class ConsumersBuilder[K, V](val props: Properties, val keyClz: Class[K], val va
     this
   }
 
+  def javaRecordListener(listener: IRecordListener[K, V]): ConsumersBuilder[K, V] = {
+    recordListener(listener.onRecord)
+    this
+  }
+
   /**
     * Set record listener.
     * @param listener
@@ -71,6 +119,11 @@ class ConsumersBuilder[K, V](val props: Properties, val keyClz: Class[K], val va
       throw new IllegalArgumentException(s"batchRecordListener has already been configured")
 
     recordListener = Some(listener)
+    this
+  }
+
+  def javaRecordBatchListener(listener: IRecordBatchListener[K, V]): ConsumersBuilder[K, V] = {
+    recordBatchListener(rs => listener.onRecords(rs.toArray))
     this
   }
 
@@ -139,6 +192,11 @@ object ConsumersBuilder {
                  (implicit keyTag: ClassTag[K], valueTag: ClassTag[V]): ConsumersBuilder[K, V] = {
     val keyClz = keyTag.runtimeClass.asInstanceOf[Class[K]]
     val valueClz = valueTag.runtimeClass.asInstanceOf[Class[V]]
+    new ConsumersBuilder[K, V](props, keyClz, valueClz)
+  }
+
+  def apply[K, V](props: Properties, keyClz: Class[K], valueClz: Class[V])
+  : ConsumersBuilder[K, V] = {
     new ConsumersBuilder[K, V](props, keyClz, valueClz)
   }
 }

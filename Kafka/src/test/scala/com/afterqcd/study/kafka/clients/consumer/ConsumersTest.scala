@@ -31,7 +31,7 @@ class ConsumersTest extends KafkaIntegrationTest {
       .bootstrapServers(kafkaUnit.bootstrapServers)
       .messageDeliverySemantics(deliverySemantics)
       .groupId("test")
-      .subscribe(Seq("test"))
+      .subscribe(Array("test"))
       .concurrency(1)
       //      .recordBatchListener(rs => rs.foreach(records.onNext))
       .recordListener(records.onNext)

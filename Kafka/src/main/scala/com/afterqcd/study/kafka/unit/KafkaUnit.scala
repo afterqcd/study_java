@@ -15,7 +15,7 @@ import scala.collection.mutable.ArrayBuffer
   */
 class KafkaUnit {
   private val host = "127.0.0.1"
-  private val zkUnit = new ZookeeperUnit
+  val zkUnit = new ZookeeperUnit
   private val kafkaBrokers = ArrayBuffer.empty[KafkaServer]
 
   /**

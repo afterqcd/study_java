@@ -67,8 +67,8 @@ public class WordCountTest extends JavaIntegration {
 
         final KStream<String, Long> wordCounts = textLines
                 .flatMapValues(line -> Arrays.asList(line.toLowerCase().split(" ")))
-                .groupBy((key, word) -> word)
-                .aggregate(() -> 0L, (w1, w2, count) -> count + 1, longSerde, "counts")
+                .groupBy((key, word) -> word, Serdes.String(), Serdes.String())
+                .count("counts")
                 .toStream();
 
         wordCounts.to(stringSerde, longSerde, dstTopic);
@@ -81,8 +81,6 @@ public class WordCountTest extends JavaIntegration {
         props.put(StreamsConfig.APPLICATION_ID_CONFIG, "wordcount-lambda-example");
         props.put(StreamsConfig.BOOTSTRAP_SERVERS_CONFIG, kafkaUnit.bootstrapServers());
         props.put(StreamsConfig.ZOOKEEPER_CONNECT_CONFIG, kafkaUnit.zkUnit().zkConnect());
-        props.put(StreamsConfig.KEY_SERDE_CLASS_CONFIG, Serdes.String().getClass().getName());
-        props.put(StreamsConfig.VALUE_SERDE_CLASS_CONFIG, Serdes.String().getClass().getName());
         props.put(StreamsConfig.COMMIT_INTERVAL_MS_CONFIG, 2 * 1000);
 
         return props;

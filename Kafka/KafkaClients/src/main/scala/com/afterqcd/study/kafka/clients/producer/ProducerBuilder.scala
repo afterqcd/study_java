@@ -13,7 +13,7 @@ import scala.reflect.ClassTag
   */
 class ProducerBuilder[K, V](val props: Properties, val keyClz: Class[K], val valueClz: Class[V]) {
   private var defaultTopic: Option[String] = None
-  protected var deliverySemantics: Option[String] = None
+  protected var deliverySemantics = DeliverySemantics.AtLeastOnce
 
   /**
     * Add property for producer.
@@ -54,7 +54,7 @@ class ProducerBuilder[K, V](val props: Properties, val keyClz: Class[K], val val
     * @return
     */
   def messageDeliverySemantics(deliverySemantics: String): ProducerBuilder[K, V] = {
-    this.deliverySemantics = Some(deliverySemantics)
+    this.deliverySemantics = deliverySemantics
     this
   }
 
@@ -75,7 +75,7 @@ class ProducerBuilder[K, V](val props: Properties, val keyClz: Class[K], val val
     * @return
     */
   def build(): IProducer[K, V] = {
-    deliverySemantics.foreach(ds => props.putAll(DeliverySemantics.propsForProducer(ds)))
+    props.putAll(DeliverySemantics.propsForProducer(deliverySemantics))
     props.putAll(propsForSerializers.asJava)
     new DefaultProducer[K, V](props, defaultTopic)
   }

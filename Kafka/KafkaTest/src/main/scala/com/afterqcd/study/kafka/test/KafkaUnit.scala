@@ -4,6 +4,7 @@ import java.net.ServerSocket
 import java.util.Properties
 
 import kafka.admin.{AdminUtils, RackAwareMode}
+import kafka.log.LogConfig
 import kafka.server.{KafkaConfig, KafkaServer}
 import kafka.utils.{CoreUtils, TestUtils}
 import org.apache.kafka.common.requests.MetadataResponse
@@ -44,7 +45,7 @@ class KafkaUnit {
     */
   def createTopic(
                    topic: String, partitions: Int, replicationFactor: Int,
-                   topicConfig: Properties = new Properties
+                   topicConfig: Properties
                  ): Unit = {
     assert(kafkaBrokers.nonEmpty, "Can not create topic before setup any broker")
 
@@ -53,6 +54,16 @@ class KafkaUnit {
       TestUtils.waitUntilMetadataIsPropagated(kafkaBrokers,topic, p)
       TestUtils.waitUntilLeaderIsElectedOrChanged(zkUnit.zkUtils, topic, p)
     }
+  }
+
+  def createTopic(topic: String, partitions: Int, replicationFactor: Int): Unit = {
+    createTopic(topic, partitions, replicationFactor, new Properties())
+  }
+
+  def createCompactTopic(topic: String, partitions: Int, replicationFactor: Int): Unit = {
+    val props = new Properties
+    props.put(LogConfig.CleanupPolicyProp, "compact")
+    createTopic(topic, partitions, replicationFactor, props)
   }
 
   /**

@@ -17,7 +17,7 @@ class ConsumersBuilder[K, V](val props: Properties, val keyClz: Class[K], val va
   private var concurrency: Option[Int] = None
   private var recordListener: Option[ConsumerRecord[K, V] => Unit] = None
   private var recordBatchListener: Option[Seq[ConsumerRecord[K, V]] => Unit] = None
-  protected var deliverySemantics: Option[String] = None
+  protected var deliverySemantics = DeliverySemantics.AtLeastOnce
 
   prop(ConsumerConfig.AUTO_OFFSET_RESET_CONFIG, "earliest")
 
@@ -60,7 +60,7 @@ class ConsumersBuilder[K, V](val props: Properties, val keyClz: Class[K], val va
     * @return
     */
   def messageDeliverySemantics(deliverySemantics: String): ConsumersBuilder[K, V] = {
-    this.deliverySemantics = Some(deliverySemantics)
+    this.deliverySemantics = deliverySemantics
     this
   }
 
@@ -151,7 +151,7 @@ class ConsumersBuilder[K, V](val props: Properties, val keyClz: Class[K], val va
     props.put("topics", topics.get.mkString(","))
 
     props.put(ConsumerConfig.ENABLE_AUTO_COMMIT_CONFIG, "false")
-    props.put("delivery.semantics", deliverySemantics.getOrElse(DeliverySemantics.AtLeastOnce))
+    props.put("delivery.semantics", deliverySemantics)
 
     props.putAll(deserializerProps.asJava)
 

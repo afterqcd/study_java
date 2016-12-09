@@ -9,6 +9,7 @@ import rx.Observable;
 import rx.functions.Func1;
 
 import java.util.List;
+import java.util.Random;
 import java.util.stream.Collectors;
 
 /**
@@ -16,6 +17,7 @@ import java.util.stream.Collectors;
  */
 public class JavaIntegration {
     protected static KafkaUnit kafkaUnit;
+    protected final Random random = new Random();
 
     @BeforeClass
     public static void createBrokers() {

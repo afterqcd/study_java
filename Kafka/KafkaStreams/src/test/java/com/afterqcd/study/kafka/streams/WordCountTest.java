@@ -5,6 +5,7 @@ import static org.junit.Assert.assertThat;
 
 import com.afterqcd.study.kafka.StreamsIntegration;
 import com.afterqcd.study.kafka.clients.producer.IProducer;
+import com.afterqcd.study.kafka.serde.UnifySerdes;
 import com.afterqcd.study.kafka.test.KeyValueRecord;
 import org.apache.kafka.clients.consumer.ConsumerRecord;
 import org.apache.kafka.common.serialization.Serde;
@@ -56,8 +57,8 @@ public class WordCountTest extends StreamsIntegration {
     }
 
     private KafkaStreams streams() {
-        final Serde<String> stringSerde = Serdes.String();
-        final Serde<Long> longSerde = Serdes.Long();
+        final Serde<String> stringSerde = UnifySerdes.serde(String.class);
+        final Serde<Long> longSerde = UnifySerdes.serde(Long.class);
 
         final KStreamBuilder builder = new KStreamBuilder();
 
@@ -65,14 +66,13 @@ public class WordCountTest extends StreamsIntegration {
 
         final KStream<String, Long> wordCounts = textLines
                 .flatMapValues(line -> Arrays.asList(line.toLowerCase().split(" ")))
-                .groupBy((key, word) -> word, Serdes.String(), Serdes.String())
+                .groupBy((key, word) -> word, stringSerde, stringSerde)
                 .count("counts")
                 .toStream();
 
         wordCounts.to(stringSerde, longSerde, WordCountsTopic);
 
         Properties props = new Properties();
-//        props.put(StreamsConfig.APPLICATION_SERVER_CONFIG, "localhost:50000");
         props.put(StreamsConfig.APPLICATION_ID_CONFIG, "wordcount-lambda-example");
         props.put(StreamsConfig.BOOTSTRAP_SERVERS_CONFIG, kafkaUnit.bootstrapServers());
         props.put(StreamsConfig.ZOOKEEPER_CONNECT_CONFIG, kafkaUnit.zkUnit().zkConnect());

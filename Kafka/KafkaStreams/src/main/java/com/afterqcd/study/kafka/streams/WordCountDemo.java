@@ -1,9 +1,9 @@
 package com.afterqcd.study.kafka.streams;
 
+import com.afterqcd.study.kafka.serde.UnifySerdes;
 import com.typesafe.config.Config;
 import com.typesafe.config.ConfigFactory;
 import org.apache.kafka.common.serialization.Serde;
-import org.apache.kafka.common.serialization.Serdes;
 import org.apache.kafka.streams.KafkaStreams;
 import org.apache.kafka.streams.StreamsConfig;
 import org.apache.kafka.streams.kstream.KStream;
@@ -25,13 +25,13 @@ public class WordCountDemo {
     public static void main(String[] args) {
         System.out.println("Word Count in Kafka Streams");
 
-        Serde<String> stringSerde = Serdes.String();
-        Serde<Long> longSerde = Serdes.Long();
+        Serde<String> stringSerde = UnifySerdes.serde(String.class);
+        Serde<Long> longSerde = UnifySerdes.serde(Long.class);
 
         KStreamBuilder builder = new KStreamBuilder();
         KStream<String, String> textLines = builder.stream(stringSerde, stringSerde, TextLinesTopics);
         KStream<String, Long> wordCounts = textLines.flatMapValues(line -> Arrays.asList(line.toLowerCase().split(WordSplitter)))
-                .groupBy((key, word) -> word)
+                .groupBy((key, word) -> word, stringSerde, stringSerde)
                 .count(CountsStore)
                 .toStream();
         wordCounts.to(stringSerde, longSerde, WordCountsTopics);
@@ -49,8 +49,6 @@ public class WordCountDemo {
         props.put(StreamsConfig.APPLICATION_ID_CONFIG, "wordcount-lambda-example");
         props.put(StreamsConfig.BOOTSTRAP_SERVERS_CONFIG, config.getString("kafka.bootstrap.servers"));
         props.put(StreamsConfig.ZOOKEEPER_CONNECT_CONFIG, config.getString("zookeeper.connect"));
-        props.put(StreamsConfig.KEY_SERDE_CLASS_CONFIG, Serdes.String().getClass().getName());
-        props.put(StreamsConfig.VALUE_SERDE_CLASS_CONFIG, Serdes.String().getClass().getName());
         props.put(StreamsConfig.COMMIT_INTERVAL_MS_CONFIG, 10 * 1000);
         return props;
     }

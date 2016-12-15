@@ -1,6 +1,6 @@
 package com.afterqcd.study.kafka.streams;
 
-import static com.afterqcd.study.kafka.serde.UnifySerdes.serdeFrom;
+import static com.afterqcd.study.kafka.serde.UnifySerdes.serde;
 import static org.hamcrest.CoreMatchers.hasItems;
 import static org.junit.Assert.assertThat;
 
@@ -58,14 +58,14 @@ public class CustomerStatisticsTest extends StreamsIntegration {
         KStreamBuilder builder = new KStreamBuilder();
 
         KStream<String, Customer> customers =
-                builder.stream(serdeFrom(String.class), serdeFrom(Customer.class), CustomersTopic);
+                builder.stream(serde(String.class), serde(Customer.class), CustomersTopic);
         KStream<Integer, Long> ageCounts =
                 customers.map((k, c) -> KeyValue.pair(c.getAge(), 1))
-                        .groupByKey(serdeFrom(Integer.class), serdeFrom(Integer.class))
+                        .groupByKey(serde(Integer.class), serde(Integer.class))
                         .count("age-counts")
                         .toStream();
 
-        ageCounts.to(serdeFrom(Integer.class), serdeFrom(Long.class), AgeStatisticsTopic);
+        ageCounts.to(serde(Integer.class), serde(Long.class), AgeStatisticsTopic);
 
         Properties props = new Properties();
         props.put(StreamsConfig.APPLICATION_ID_CONFIG, "customer-statistics-stream-app");

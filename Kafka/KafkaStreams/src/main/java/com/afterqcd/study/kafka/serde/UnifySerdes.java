@@ -13,7 +13,7 @@ public class UnifySerdes {
      * @param <T>
      * @return
      */
-    public static <T> Serde<T> serdeFrom(Class<T> clz) {
+    public static <T> Serde<T> serde(Class<T> clz) {
         try {
             return Serdes.serdeFrom(clz);
         } catch (IllegalArgumentException e) {

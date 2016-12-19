@@ -1,0 +1,8 @@
+syntax = "proto3";
+package com.fx.productization.datanormalizer.domain.core.dto;
+enum PayType {
+      Alipay = 0;
+      CreditCard = 1;
+      WeChat = 2;
+
+}

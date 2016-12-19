@@ -1,0 +1,6 @@
+syntax = "proto3";
+package com.fx.productization.datanormalizer.domain.core.dto;
+enum ItemType {
+      Physical = 0;
+      Virtual = 1;
+}

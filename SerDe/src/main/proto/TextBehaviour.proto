@@ -1,0 +1,11 @@
+syntax = "proto3";
+package com.fx.productization.datanormalizer.domain.core.dto;
+import "BaseDomain.proto";
+import "Behaviour.proto";
+import "google/protobuf/any.proto";
+
+message TextBehaviour {
+  Behaviour behavior = 1;
+  BaseDomain baseDomain = 2;
+  repeated google.protobuf.Any text = 3;
+}

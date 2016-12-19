@@ -9,7 +9,6 @@ import com.afterqcd.study.kafka.serde.UnifySerdes;
 import com.afterqcd.study.kafka.test.KeyValueRecord;
 import org.apache.kafka.clients.consumer.ConsumerRecord;
 import org.apache.kafka.common.serialization.Serde;
-import org.apache.kafka.common.serialization.Serdes;
 import org.apache.kafka.streams.KafkaStreams;
 import org.apache.kafka.streams.StreamsConfig;
 import org.apache.kafka.streams.kstream.KStream;

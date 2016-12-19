@@ -1,0 +1,6 @@
+syntax = "proto3";
+package com.fx.productization.datanormalizer.domain.core.dto;
+message Attribute {
+  string name = 1;
+  string value = 2;
+}

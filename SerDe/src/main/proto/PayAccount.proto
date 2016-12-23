@@ -1,8 +1,0 @@
-syntax = "proto3";
-package com.fx.productization.datanormalizer.domain.core.dto;
-import "PayType.proto";
-
-message PayAccount {
-  string account = 1;
-  PayType type = 2;
-}

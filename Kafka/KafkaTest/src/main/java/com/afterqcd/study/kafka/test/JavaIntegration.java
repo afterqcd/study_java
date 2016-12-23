@@ -6,7 +6,6 @@ import org.apache.kafka.clients.consumer.KafkaConsumer;
 import org.junit.AfterClass;
 import org.junit.BeforeClass;
 import rx.Observable;
-import rx.functions.Func1;
 
 import java.util.List;
 import java.util.Random;

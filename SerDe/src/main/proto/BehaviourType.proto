@@ -1,9 +1,0 @@
-syntax = "proto3";
-package com.fx.productization.datanormalizer.domain.core.dto;
-enum BehaviourType {
-      Browse = 0;
-      Click = 1;
-      Order = 2;
-      Search = 3;
-      Comment = 4;
-}

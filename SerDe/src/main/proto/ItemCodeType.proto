@@ -1,6 +1,0 @@
-syntax = "proto3";
-package com.fx.productization.datanormalizer.domain.core.dto;
-enum ItemCodeType {
-      SixNineCode = 0;
-      QRCode = 1;
-}

@@ -1,8 +1,0 @@
-syntax = "proto3";
-package com.fx.productization.datanormalizer.domain.core.dto;
-message Warning {
-  string name = 1;
-  string value = 2;
-  string code = 3;
-  repeated string params = 4;
-}

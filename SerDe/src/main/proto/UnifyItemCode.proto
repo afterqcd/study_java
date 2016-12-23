@@ -1,8 +1,0 @@
-syntax = "proto3";
-package com.fx.productization.datanormalizer.domain.core.dto;
-import "ItemCodeType.proto";
-
-message UnifyItemCode {
-  ItemCodeType type = 1;
-  string itemCode = 2;
-}

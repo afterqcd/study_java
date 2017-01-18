@@ -63,8 +63,13 @@
                 <version>0.4.0</version>
                 <configuration>
                     <imageName>route-guide-service:1.0</imageName>
-                    <dockerDirectory>${project.basedir}/docker</dockerDirectory>
+                    <dockerDirectory>${project.build.directory}/docker</dockerDirectory>
                     <resources>
+                        <resource>
+                            <targetPath>/</targetPath>
+                            <directory>src/main/docker</directory>
+                            <include>Dockerfile</include>
+                        </resource>
                         <resource>
                             <targetPath>/</targetPath>
                             <directory>${project.build.directory}</directory>

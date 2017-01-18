@@ -1,0 +1,18 @@
+syntax = "proto3";
+
+package com.afterqcd.study.serde.protobuf.opm;
+import "google/protobuf/any.proto";
+
+option java_outer_classname = "Proto";
+
+message Generic {
+    oneof value {
+        bool bool = 1;
+        int32 int = 2;
+        int64 long = 3;
+        float float = 4;
+        double double = 5;
+        string string = 6;
+        google.protobuf.Any any = 7;
+    }
+}

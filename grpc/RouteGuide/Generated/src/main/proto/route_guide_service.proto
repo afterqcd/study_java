@@ -1,0 +1,17 @@
+syntax = "proto3";
+
+option java_multiple_files = true;
+option java_package = "com.afterqcd.study.grpc.routeguide.service";
+option java_generic_services = true;
+option java_outer_classname = "RouteGuideServiceProto";
+
+package routeguide;
+
+import "route_guide_model.proto";
+
+service RouteGuide {
+    rpc GetFeature(Point) returns (Feature) {}
+    rpc ListFeatures(Rectangle) returns (stream Feature) {}
+    rpc RecordRoute(stream Point) returns (RouteSummary) {}
+    rpc RouteChat(stream RouteNote) returns (stream RouteNote) {}
+}

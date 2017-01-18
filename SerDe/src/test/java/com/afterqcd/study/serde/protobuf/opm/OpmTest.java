@@ -1,11 +1,18 @@
 package com.afterqcd.study.serde.protobuf.opm;
 
 import com.afterqcd.study.serde.protobuf.dto.Dto;
+import com.afterqcd.study.serde.protobuf.model.Attribute;
 import com.afterqcd.study.serde.protobuf.model.Click;
+import com.afterqcd.study.serde.protobuf.model.Context;
 import com.afterqcd.study.serde.protobuf.model.Customer;
+import com.afterqcd.study.serde.protobuf.model.Level;
+import com.afterqcd.study.serde.protobuf.model.Log;
+import com.afterqcd.study.serde.protobuf.model.NamedData;
+import com.afterqcd.study.serde.protobuf.model.Square;
 import com.google.protobuf.InvalidProtocolBufferException;
 import com.google.protobuf.Message;
 import com.google.protobuf.Parser;
+import com.google.protobuf.ProtocolMessageEnum;
 import net.badata.protobuf.converter.Converter;
 import org.junit.After;
 import org.junit.Assert;
@@ -19,15 +26,17 @@ import java.util.Date;
  */
 public class OpmTest {
     private Converter converter;
+    private DomainRegistry registry = DomainRegistry.getInstance();
 
     @Before
     public void setUp() throws Exception {
-        converter = Converter.create();
+        converter = ConverterHolder.getConverter();
     }
 
     @After
     public void tearDown() throws Exception {
         converter = null;
+        registry.cleanUp();
     }
 
     @Test
@@ -68,28 +77,90 @@ public class OpmTest {
 
     @Test
     public void shouldSupportGenericClass() throws Exception {
-        // NamedData
+        // type parameter is bool
+        NamedData<Boolean> namedBool = new NamedData<>();
+        namedBool.setName("bool");
+        namedBool.setData(true);
 
+        Assert.assertEquals(namedBool, serDe(Dto.NamedData.class, namedBool));
+
+        // type parameter is int
+        NamedData<Integer> namedInt = new NamedData<>();
+        namedInt.setName("int");
+        namedInt.setData(15);
+
+        Assert.assertEquals(namedInt, serDe(Dto.NamedData.class, namedInt));
+
+        // type parameter is customized domain
+        registry.registerClass(Customer.class);
+
+        Customer customer = new Customer();
+        customer.setName("zhang san");
+        customer.setAge(15);
+        NamedData<Customer> namedCustomer = new NamedData<>();
+        namedCustomer.setName("customer");
+        namedCustomer.setData(customer);
+
+        Assert.assertEquals(namedCustomer, serDe(Dto.NamedData.class, namedCustomer));
+
+        // generic in generic
+        registry.registerClass(NamedData.class);
+        NamedData<NamedData<Customer>> namedCustomer1 = new NamedData<>();
+        namedCustomer1.setName("open me");
+        namedCustomer1.setData(namedCustomer);
+
+        Assert.assertEquals(namedCustomer1, serDe(Dto.NamedData.class, namedCustomer1));
     }
 
     @Test
     public void shouldSupportGenericPropertiesWithConcreteTypeParameter() throws Exception {
-        // Context
+        Context context = new Context();
+        NamedData<String> desc = new NamedData<>();
+        desc.setName("desc");
+        desc.setData("tenma");
+        NamedData<Double> size = new NamedData<>();
+        size.setName("size");
+        size.setData(Double.MAX_VALUE);
+        context.setDesc(desc);
+        context.setSize(size);
+
+        Assert.assertEquals(context, serDe(Dto.Context.class, context));
     }
 
     @Test
     public void shouldSupportSubclass() throws Exception {
-        // Square and Circle
+        Square square = new Square();
+        square.setName("square");
+        square.setSideLength(1D);
+
+        Assert.assertEquals(square, serDe(Dto.Square.class, square));
     }
 
     @Test
     public void shouldSupportEnumProperties() throws Exception {
-        // Log
+        registry.registerEnum(Level.class);
 
+        Log log = new Log();
+        log.setLevel(Level.Warn);
+        log.setMessage("a warn");
+
+        Assert.assertEquals(log, serDe(Dto.Log.class, log));
     }
 
     @Test
     public void shouldSupportObjectProperties() throws Exception {
-        // Attribute
+        Attribute sizeAttribute = new Attribute();
+        sizeAttribute.setName("size");
+        sizeAttribute.setValue(2D);
+        Assert.assertEquals(sizeAttribute, serDe(Dto.Attribute.class, sizeAttribute));
+
+        registry.registerClass(Customer.class);
+        Customer customer = new Customer();
+        customer.setName("zhang san");
+        customer.setAge(15);
+        Attribute customerAttribute = new Attribute();
+        customerAttribute.setName("customer");
+        customerAttribute.setValue(customer);
+        Assert.assertEquals(customerAttribute, serDe(Dto.Attribute.class, customerAttribute));
     }
 }

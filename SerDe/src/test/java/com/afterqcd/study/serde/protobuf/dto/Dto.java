@@ -1462,41 +1462,46 @@ public final class Dto {
       com.google.protobuf.MessageOrBuilder {
 
     /**
-     * <code>optional int32 int = 1;</code>
+     * <code>optional bool bool = 1;</code>
+     */
+    boolean getBool();
+
+    /**
+     * <code>optional int32 int = 2;</code>
      */
     int getInt();
 
     /**
-     * <code>optional int64 long = 2;</code>
+     * <code>optional int64 long = 3;</code>
      */
     long getLong();
 
     /**
-     * <code>optional float float = 3;</code>
+     * <code>optional float float = 4;</code>
      */
     float getFloat();
 
     /**
-     * <code>optional double double = 4;</code>
+     * <code>optional double double = 5;</code>
      */
     double getDouble();
 
     /**
-     * <code>optional string string = 5;</code>
+     * <code>optional string string = 6;</code>
      */
     java.lang.String getString();
     /**
-     * <code>optional string string = 5;</code>
+     * <code>optional string string = 6;</code>
      */
     com.google.protobuf.ByteString
         getStringBytes();
 
     /**
-     * <code>optional .google.protobuf.Any any = 6;</code>
+     * <code>optional .google.protobuf.Any any = 7;</code>
      */
     com.google.protobuf.Any getAny();
     /**
-     * <code>optional .google.protobuf.Any any = 6;</code>
+     * <code>optional .google.protobuf.Any any = 7;</code>
      */
     com.google.protobuf.AnyOrBuilder getAnyOrBuilder();
 
@@ -1543,33 +1548,38 @@ public final class Dto {
             }
             case 8: {
               valueCase_ = 1;
-              value_ = input.readInt32();
+              value_ = input.readBool();
               break;
             }
             case 16: {
               valueCase_ = 2;
+              value_ = input.readInt32();
+              break;
+            }
+            case 24: {
+              valueCase_ = 3;
               value_ = input.readInt64();
               break;
             }
-            case 29: {
-              valueCase_ = 3;
+            case 37: {
+              valueCase_ = 4;
               value_ = input.readFloat();
               break;
             }
-            case 33: {
-              valueCase_ = 4;
+            case 41: {
+              valueCase_ = 5;
               value_ = input.readDouble();
               break;
             }
-            case 42: {
+            case 50: {
               java.lang.String s = input.readStringRequireUtf8();
-              valueCase_ = 5;
+              valueCase_ = 6;
               value_ = s;
               break;
             }
-            case 50: {
+            case 58: {
               com.google.protobuf.Any.Builder subBuilder = null;
-              if (valueCase_ == 6) {
+              if (valueCase_ == 7) {
                 subBuilder = ((com.google.protobuf.Any) value_).toBuilder();
               }
               value_ =
@@ -1578,7 +1588,7 @@ public final class Dto {
                 subBuilder.mergeFrom((com.google.protobuf.Any) value_);
                 value_ = subBuilder.buildPartial();
               }
-              valueCase_ = 6;
+              valueCase_ = 7;
               break;
             }
           }
@@ -1608,12 +1618,13 @@ public final class Dto {
     private java.lang.Object value_;
     public enum ValueCase
         implements com.google.protobuf.Internal.EnumLite {
-      INT(1),
-      LONG(2),
-      FLOAT(3),
-      DOUBLE(4),
-      STRING(5),
-      ANY(6),
+      BOOL(1),
+      INT(2),
+      LONG(3),
+      FLOAT(4),
+      DOUBLE(5),
+      STRING(6),
+      ANY(7),
       VALUE_NOT_SET(0);
       private final int value;
       private ValueCase(int value) {
@@ -1629,12 +1640,13 @@ public final class Dto {
 
       public static ValueCase forNumber(int value) {
         switch (value) {
-          case 1: return INT;
-          case 2: return LONG;
-          case 3: return FLOAT;
-          case 4: return DOUBLE;
-          case 5: return STRING;
-          case 6: return ANY;
+          case 1: return BOOL;
+          case 2: return INT;
+          case 3: return LONG;
+          case 4: return FLOAT;
+          case 5: return DOUBLE;
+          case 6: return STRING;
+          case 7: return ANY;
           case 0: return VALUE_NOT_SET;
           default: return null;
         }
@@ -1650,57 +1662,68 @@ public final class Dto {
           valueCase_);
     }
 
-    public static final int INT_FIELD_NUMBER = 1;
+    public static final int BOOL_FIELD_NUMBER = 1;
     /**
-     * <code>optional int32 int = 1;</code>
+     * <code>optional bool bool = 1;</code>
+     */
+    public boolean getBool() {
+      if (valueCase_ == 1) {
+        return (java.lang.Boolean) value_;
+      }
+      return false;
+    }
+
+    public static final int INT_FIELD_NUMBER = 2;
+    /**
+     * <code>optional int32 int = 2;</code>
      */
     public int getInt() {
-      if (valueCase_ == 1) {
+      if (valueCase_ == 2) {
         return (java.lang.Integer) value_;
       }
       return 0;
     }
 
-    public static final int LONG_FIELD_NUMBER = 2;
+    public static final int LONG_FIELD_NUMBER = 3;
     /**
-     * <code>optional int64 long = 2;</code>
+     * <code>optional int64 long = 3;</code>
      */
     public long getLong() {
-      if (valueCase_ == 2) {
+      if (valueCase_ == 3) {
         return (java.lang.Long) value_;
       }
       return 0L;
     }
 
-    public static final int FLOAT_FIELD_NUMBER = 3;
+    public static final int FLOAT_FIELD_NUMBER = 4;
     /**
-     * <code>optional float float = 3;</code>
+     * <code>optional float float = 4;</code>
      */
     public float getFloat() {
-      if (valueCase_ == 3) {
+      if (valueCase_ == 4) {
         return (java.lang.Float) value_;
       }
       return 0F;
     }
 
-    public static final int DOUBLE_FIELD_NUMBER = 4;
+    public static final int DOUBLE_FIELD_NUMBER = 5;
     /**
-     * <code>optional double double = 4;</code>
+     * <code>optional double double = 5;</code>
      */
     public double getDouble() {
-      if (valueCase_ == 4) {
+      if (valueCase_ == 5) {
         return (java.lang.Double) value_;
       }
       return 0D;
     }
 
-    public static final int STRING_FIELD_NUMBER = 5;
+    public static final int STRING_FIELD_NUMBER = 6;
     /**
-     * <code>optional string string = 5;</code>
+     * <code>optional string string = 6;</code>
      */
     public java.lang.String getString() {
       java.lang.Object ref = "";
-      if (valueCase_ == 5) {
+      if (valueCase_ == 6) {
         ref = value_;
       }
       if (ref instanceof java.lang.String) {
@@ -1709,26 +1732,26 @@ public final class Dto {
         com.google.protobuf.ByteString bs = 
             (com.google.protobuf.ByteString) ref;
         java.lang.String s = bs.toStringUtf8();
-        if (valueCase_ == 5) {
+        if (valueCase_ == 6) {
           value_ = s;
         }
         return s;
       }
     }
     /**
-     * <code>optional string string = 5;</code>
+     * <code>optional string string = 6;</code>
      */
     public com.google.protobuf.ByteString
         getStringBytes() {
       java.lang.Object ref = "";
-      if (valueCase_ == 5) {
+      if (valueCase_ == 6) {
         ref = value_;
       }
       if (ref instanceof java.lang.String) {
         com.google.protobuf.ByteString b = 
             com.google.protobuf.ByteString.copyFromUtf8(
                 (java.lang.String) ref);
-        if (valueCase_ == 5) {
+        if (valueCase_ == 6) {
           value_ = b;
         }
         return b;
@@ -1737,21 +1760,21 @@ public final class Dto {
       }
     }
 
-    public static final int ANY_FIELD_NUMBER = 6;
+    public static final int ANY_FIELD_NUMBER = 7;
     /**
-     * <code>optional .google.protobuf.Any any = 6;</code>
+     * <code>optional .google.protobuf.Any any = 7;</code>
      */
     public com.google.protobuf.Any getAny() {
-      if (valueCase_ == 6) {
+      if (valueCase_ == 7) {
          return (com.google.protobuf.Any) value_;
       }
       return com.google.protobuf.Any.getDefaultInstance();
     }
     /**
-     * <code>optional .google.protobuf.Any any = 6;</code>
+     * <code>optional .google.protobuf.Any any = 7;</code>
      */
     public com.google.protobuf.AnyOrBuilder getAnyOrBuilder() {
-      if (valueCase_ == 6) {
+      if (valueCase_ == 7) {
          return (com.google.protobuf.Any) value_;
       }
       return com.google.protobuf.Any.getDefaultInstance();
@@ -1770,26 +1793,30 @@ public final class Dto {
     public void writeTo(com.google.protobuf.CodedOutputStream output)
                         throws java.io.IOException {
       if (valueCase_ == 1) {
-        output.writeInt32(
-            1, (int)((java.lang.Integer) value_));
+        output.writeBool(
+            1, (boolean)((java.lang.Boolean) value_));
       }
       if (valueCase_ == 2) {
-        output.writeInt64(
-            2, (long)((java.lang.Long) value_));
+        output.writeInt32(
+            2, (int)((java.lang.Integer) value_));
       }
       if (valueCase_ == 3) {
-        output.writeFloat(
-            3, (float)((java.lang.Float) value_));
+        output.writeInt64(
+            3, (long)((java.lang.Long) value_));
       }
       if (valueCase_ == 4) {
-        output.writeDouble(
-            4, (double)((java.lang.Double) value_));
+        output.writeFloat(
+            4, (float)((java.lang.Float) value_));
       }
       if (valueCase_ == 5) {
-        com.google.protobuf.GeneratedMessageV3.writeString(output, 5, value_);
+        output.writeDouble(
+            5, (double)((java.lang.Double) value_));
       }
       if (valueCase_ == 6) {
-        output.writeMessage(6, (com.google.protobuf.Any) value_);
+        com.google.protobuf.GeneratedMessageV3.writeString(output, 6, value_);
+      }
+      if (valueCase_ == 7) {
+        output.writeMessage(7, (com.google.protobuf.Any) value_);
       }
     }
 
@@ -1800,30 +1827,35 @@ public final class Dto {
       size = 0;
       if (valueCase_ == 1) {
         size += com.google.protobuf.CodedOutputStream
-          .computeInt32Size(
-              1, (int)((java.lang.Integer) value_));
+          .computeBoolSize(
+              1, (boolean)((java.lang.Boolean) value_));
       }
       if (valueCase_ == 2) {
         size += com.google.protobuf.CodedOutputStream
-          .computeInt64Size(
-              2, (long)((java.lang.Long) value_));
+          .computeInt32Size(
+              2, (int)((java.lang.Integer) value_));
       }
       if (valueCase_ == 3) {
         size += com.google.protobuf.CodedOutputStream
-          .computeFloatSize(
-              3, (float)((java.lang.Float) value_));
+          .computeInt64Size(
+              3, (long)((java.lang.Long) value_));
       }
       if (valueCase_ == 4) {
         size += com.google.protobuf.CodedOutputStream
-          .computeDoubleSize(
-              4, (double)((java.lang.Double) value_));
+          .computeFloatSize(
+              4, (float)((java.lang.Float) value_));
       }
       if (valueCase_ == 5) {
-        size += com.google.protobuf.GeneratedMessageV3.computeStringSize(5, value_);
+        size += com.google.protobuf.CodedOutputStream
+          .computeDoubleSize(
+              5, (double)((java.lang.Double) value_));
       }
       if (valueCase_ == 6) {
+        size += com.google.protobuf.GeneratedMessageV3.computeStringSize(6, value_);
+      }
+      if (valueCase_ == 7) {
         size += com.google.protobuf.CodedOutputStream
-          .computeMessageSize(6, (com.google.protobuf.Any) value_);
+          .computeMessageSize(7, (com.google.protobuf.Any) value_);
       }
       memoizedSize = size;
       return size;
@@ -1846,30 +1878,34 @@ public final class Dto {
       if (!result) return false;
       switch (valueCase_) {
         case 1:
+          result = result && (getBool()
+              == other.getBool());
+          break;
+        case 2:
           result = result && (getInt()
               == other.getInt());
           break;
-        case 2:
+        case 3:
           result = result && (getLong()
               == other.getLong());
           break;
-        case 3:
+        case 4:
           result = result && (
               java.lang.Float.floatToIntBits(getFloat())
               == java.lang.Float.floatToIntBits(
                   other.getFloat()));
           break;
-        case 4:
+        case 5:
           result = result && (
               java.lang.Double.doubleToLongBits(getDouble())
               == java.lang.Double.doubleToLongBits(
                   other.getDouble()));
           break;
-        case 5:
+        case 6:
           result = result && getString()
               .equals(other.getString());
           break;
-        case 6:
+        case 7:
           result = result && getAny()
               .equals(other.getAny());
           break;
@@ -1888,29 +1924,34 @@ public final class Dto {
       hash = (19 * hash) + getDescriptorForType().hashCode();
       switch (valueCase_) {
         case 1:
+          hash = (37 * hash) + BOOL_FIELD_NUMBER;
+          hash = (53 * hash) + com.google.protobuf.Internal.hashBoolean(
+              getBool());
+          break;
+        case 2:
           hash = (37 * hash) + INT_FIELD_NUMBER;
           hash = (53 * hash) + getInt();
           break;
-        case 2:
+        case 3:
           hash = (37 * hash) + LONG_FIELD_NUMBER;
           hash = (53 * hash) + com.google.protobuf.Internal.hashLong(
               getLong());
           break;
-        case 3:
+        case 4:
           hash = (37 * hash) + FLOAT_FIELD_NUMBER;
           hash = (53 * hash) + java.lang.Float.floatToIntBits(
               getFloat());
           break;
-        case 4:
+        case 5:
           hash = (37 * hash) + DOUBLE_FIELD_NUMBER;
           hash = (53 * hash) + com.google.protobuf.Internal.hashLong(
               java.lang.Double.doubleToLongBits(getDouble()));
           break;
-        case 5:
+        case 6:
           hash = (37 * hash) + STRING_FIELD_NUMBER;
           hash = (53 * hash) + getString().hashCode();
           break;
-        case 6:
+        case 7:
           hash = (37 * hash) + ANY_FIELD_NUMBER;
           hash = (53 * hash) + getAny().hashCode();
           break;
@@ -2075,6 +2116,9 @@ public final class Dto {
           result.value_ = value_;
         }
         if (valueCase_ == 6) {
+          result.value_ = value_;
+        }
+        if (valueCase_ == 7) {
           if (anyBuilder_ == null) {
             result.value_ = value_;
           } else {
@@ -2124,6 +2168,10 @@ public final class Dto {
       public Builder mergeFrom(com.afterqcd.study.serde.protobuf.dto.Dto.Generic other) {
         if (other == com.afterqcd.study.serde.protobuf.dto.Dto.Generic.getDefaultInstance()) return this;
         switch (other.getValueCase()) {
+          case BOOL: {
+            setBool(other.getBool());
+            break;
+          }
           case INT: {
             setInt(other.getInt());
             break;
@@ -2141,7 +2189,7 @@ public final class Dto {
             break;
           }
           case STRING: {
-            valueCase_ = 5;
+            valueCase_ = 6;
             value_ = other.value_;
             onChanged();
             break;
@@ -2196,27 +2244,27 @@ public final class Dto {
 
 
       /**
-       * <code>optional int32 int = 1;</code>
+       * <code>optional bool bool = 1;</code>
        */
-      public int getInt() {
+      public boolean getBool() {
         if (valueCase_ == 1) {
-          return (java.lang.Integer) value_;
+          return (java.lang.Boolean) value_;
         }
-        return 0;
+        return false;
       }
       /**
-       * <code>optional int32 int = 1;</code>
+       * <code>optional bool bool = 1;</code>
        */
-      public Builder setInt(int value) {
+      public Builder setBool(boolean value) {
         valueCase_ = 1;
         value_ = value;
         onChanged();
         return this;
       }
       /**
-       * <code>optional int32 int = 1;</code>
+       * <code>optional bool bool = 1;</code>
        */
-      public Builder clearInt() {
+      public Builder clearBool() {
         if (valueCase_ == 1) {
           valueCase_ = 0;
           value_ = null;
@@ -2226,27 +2274,27 @@ public final class Dto {
       }
 
       /**
-       * <code>optional int64 long = 2;</code>
+       * <code>optional int32 int = 2;</code>
        */
-      public long getLong() {
+      public int getInt() {
         if (valueCase_ == 2) {
-          return (java.lang.Long) value_;
+          return (java.lang.Integer) value_;
         }
-        return 0L;
+        return 0;
       }
       /**
-       * <code>optional int64 long = 2;</code>
+       * <code>optional int32 int = 2;</code>
        */
-      public Builder setLong(long value) {
+      public Builder setInt(int value) {
         valueCase_ = 2;
         value_ = value;
         onChanged();
         return this;
       }
       /**
-       * <code>optional int64 long = 2;</code>
+       * <code>optional int32 int = 2;</code>
        */
-      public Builder clearLong() {
+      public Builder clearInt() {
         if (valueCase_ == 2) {
           valueCase_ = 0;
           value_ = null;
@@ -2256,27 +2304,27 @@ public final class Dto {
       }
 
       /**
-       * <code>optional float float = 3;</code>
+       * <code>optional int64 long = 3;</code>
        */
-      public float getFloat() {
+      public long getLong() {
         if (valueCase_ == 3) {
-          return (java.lang.Float) value_;
+          return (java.lang.Long) value_;
         }
-        return 0F;
+        return 0L;
       }
       /**
-       * <code>optional float float = 3;</code>
+       * <code>optional int64 long = 3;</code>
        */
-      public Builder setFloat(float value) {
+      public Builder setLong(long value) {
         valueCase_ = 3;
         value_ = value;
         onChanged();
         return this;
       }
       /**
-       * <code>optional float float = 3;</code>
+       * <code>optional int64 long = 3;</code>
        */
-      public Builder clearFloat() {
+      public Builder clearLong() {
         if (valueCase_ == 3) {
           valueCase_ = 0;
           value_ = null;
@@ -2286,27 +2334,27 @@ public final class Dto {
       }
 
       /**
-       * <code>optional double double = 4;</code>
+       * <code>optional float float = 4;</code>
        */
-      public double getDouble() {
+      public float getFloat() {
         if (valueCase_ == 4) {
-          return (java.lang.Double) value_;
+          return (java.lang.Float) value_;
         }
-        return 0D;
+        return 0F;
       }
       /**
-       * <code>optional double double = 4;</code>
+       * <code>optional float float = 4;</code>
        */
-      public Builder setDouble(double value) {
+      public Builder setFloat(float value) {
         valueCase_ = 4;
         value_ = value;
         onChanged();
         return this;
       }
       /**
-       * <code>optional double double = 4;</code>
+       * <code>optional float float = 4;</code>
        */
-      public Builder clearDouble() {
+      public Builder clearFloat() {
         if (valueCase_ == 4) {
           valueCase_ = 0;
           value_ = null;
@@ -2316,18 +2364,48 @@ public final class Dto {
       }
 
       /**
-       * <code>optional string string = 5;</code>
+       * <code>optional double double = 5;</code>
+       */
+      public double getDouble() {
+        if (valueCase_ == 5) {
+          return (java.lang.Double) value_;
+        }
+        return 0D;
+      }
+      /**
+       * <code>optional double double = 5;</code>
+       */
+      public Builder setDouble(double value) {
+        valueCase_ = 5;
+        value_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>optional double double = 5;</code>
+       */
+      public Builder clearDouble() {
+        if (valueCase_ == 5) {
+          valueCase_ = 0;
+          value_ = null;
+          onChanged();
+        }
+        return this;
+      }
+
+      /**
+       * <code>optional string string = 6;</code>
        */
       public java.lang.String getString() {
         java.lang.Object ref = "";
-        if (valueCase_ == 5) {
+        if (valueCase_ == 6) {
           ref = value_;
         }
         if (!(ref instanceof java.lang.String)) {
           com.google.protobuf.ByteString bs =
               (com.google.protobuf.ByteString) ref;
           java.lang.String s = bs.toStringUtf8();
-          if (valueCase_ == 5) {
+          if (valueCase_ == 6) {
             value_ = s;
           }
           return s;
@@ -2336,19 +2414,19 @@ public final class Dto {
         }
       }
       /**
-       * <code>optional string string = 5;</code>
+       * <code>optional string string = 6;</code>
        */
       public com.google.protobuf.ByteString
           getStringBytes() {
         java.lang.Object ref = "";
-        if (valueCase_ == 5) {
+        if (valueCase_ == 6) {
           ref = value_;
         }
         if (ref instanceof String) {
           com.google.protobuf.ByteString b = 
               com.google.protobuf.ByteString.copyFromUtf8(
                   (java.lang.String) ref);
-          if (valueCase_ == 5) {
+          if (valueCase_ == 6) {
             value_ = b;
           }
           return b;
@@ -2357,23 +2435,23 @@ public final class Dto {
         }
       }
       /**
-       * <code>optional string string = 5;</code>
+       * <code>optional string string = 6;</code>
        */
       public Builder setString(
           java.lang.String value) {
         if (value == null) {
     throw new NullPointerException();
   }
-  valueCase_ = 5;
+  valueCase_ = 6;
         value_ = value;
         onChanged();
         return this;
       }
       /**
-       * <code>optional string string = 5;</code>
+       * <code>optional string string = 6;</code>
        */
       public Builder clearString() {
-        if (valueCase_ == 5) {
+        if (valueCase_ == 6) {
           valueCase_ = 0;
           value_ = null;
           onChanged();
@@ -2381,7 +2459,7 @@ public final class Dto {
         return this;
       }
       /**
-       * <code>optional string string = 5;</code>
+       * <code>optional string string = 6;</code>
        */
       public Builder setStringBytes(
           com.google.protobuf.ByteString value) {
@@ -2389,7 +2467,7 @@ public final class Dto {
     throw new NullPointerException();
   }
   checkByteStringIsUtf8(value);
-        valueCase_ = 5;
+        valueCase_ = 6;
         value_ = value;
         onChanged();
         return this;
@@ -2398,23 +2476,23 @@ public final class Dto {
       private com.google.protobuf.SingleFieldBuilderV3<
           com.google.protobuf.Any, com.google.protobuf.Any.Builder, com.google.protobuf.AnyOrBuilder> anyBuilder_;
       /**
-       * <code>optional .google.protobuf.Any any = 6;</code>
+       * <code>optional .google.protobuf.Any any = 7;</code>
        */
       public com.google.protobuf.Any getAny() {
         if (anyBuilder_ == null) {
-          if (valueCase_ == 6) {
+          if (valueCase_ == 7) {
             return (com.google.protobuf.Any) value_;
           }
           return com.google.protobuf.Any.getDefaultInstance();
         } else {
-          if (valueCase_ == 6) {
+          if (valueCase_ == 7) {
             return anyBuilder_.getMessage();
           }
           return com.google.protobuf.Any.getDefaultInstance();
         }
       }
       /**
-       * <code>optional .google.protobuf.Any any = 6;</code>
+       * <code>optional .google.protobuf.Any any = 7;</code>
        */
       public Builder setAny(com.google.protobuf.Any value) {
         if (anyBuilder_ == null) {
@@ -2426,11 +2504,11 @@ public final class Dto {
         } else {
           anyBuilder_.setMessage(value);
         }
-        valueCase_ = 6;
+        valueCase_ = 7;
         return this;
       }
       /**
-       * <code>optional .google.protobuf.Any any = 6;</code>
+       * <code>optional .google.protobuf.Any any = 7;</code>
        */
       public Builder setAny(
           com.google.protobuf.Any.Builder builderForValue) {
@@ -2440,15 +2518,15 @@ public final class Dto {
         } else {
           anyBuilder_.setMessage(builderForValue.build());
         }
-        valueCase_ = 6;
+        valueCase_ = 7;
         return this;
       }
       /**
-       * <code>optional .google.protobuf.Any any = 6;</code>
+       * <code>optional .google.protobuf.Any any = 7;</code>
        */
       public Builder mergeAny(com.google.protobuf.Any value) {
         if (anyBuilder_ == null) {
-          if (valueCase_ == 6 &&
+          if (valueCase_ == 7 &&
               value_ != com.google.protobuf.Any.getDefaultInstance()) {
             value_ = com.google.protobuf.Any.newBuilder((com.google.protobuf.Any) value_)
                 .mergeFrom(value).buildPartial();
@@ -2457,26 +2535,26 @@ public final class Dto {
           }
           onChanged();
         } else {
-          if (valueCase_ == 6) {
+          if (valueCase_ == 7) {
             anyBuilder_.mergeFrom(value);
           }
           anyBuilder_.setMessage(value);
         }
-        valueCase_ = 6;
+        valueCase_ = 7;
         return this;
       }
       /**
-       * <code>optional .google.protobuf.Any any = 6;</code>
+       * <code>optional .google.protobuf.Any any = 7;</code>
        */
       public Builder clearAny() {
         if (anyBuilder_ == null) {
-          if (valueCase_ == 6) {
+          if (valueCase_ == 7) {
             valueCase_ = 0;
             value_ = null;
             onChanged();
           }
         } else {
-          if (valueCase_ == 6) {
+          if (valueCase_ == 7) {
             valueCase_ = 0;
             value_ = null;
           }
@@ -2485,32 +2563,32 @@ public final class Dto {
         return this;
       }
       /**
-       * <code>optional .google.protobuf.Any any = 6;</code>
+       * <code>optional .google.protobuf.Any any = 7;</code>
        */
       public com.google.protobuf.Any.Builder getAnyBuilder() {
         return getAnyFieldBuilder().getBuilder();
       }
       /**
-       * <code>optional .google.protobuf.Any any = 6;</code>
+       * <code>optional .google.protobuf.Any any = 7;</code>
        */
       public com.google.protobuf.AnyOrBuilder getAnyOrBuilder() {
-        if ((valueCase_ == 6) && (anyBuilder_ != null)) {
+        if ((valueCase_ == 7) && (anyBuilder_ != null)) {
           return anyBuilder_.getMessageOrBuilder();
         } else {
-          if (valueCase_ == 6) {
+          if (valueCase_ == 7) {
             return (com.google.protobuf.Any) value_;
           }
           return com.google.protobuf.Any.getDefaultInstance();
         }
       }
       /**
-       * <code>optional .google.protobuf.Any any = 6;</code>
+       * <code>optional .google.protobuf.Any any = 7;</code>
        */
       private com.google.protobuf.SingleFieldBuilderV3<
           com.google.protobuf.Any, com.google.protobuf.Any.Builder, com.google.protobuf.AnyOrBuilder> 
           getAnyFieldBuilder() {
         if (anyBuilder_ == null) {
-          if (!(valueCase_ == 6)) {
+          if (!(valueCase_ == 7)) {
             value_ = com.google.protobuf.Any.getDefaultInstance();
           }
           anyBuilder_ = new com.google.protobuf.SingleFieldBuilderV3<
@@ -2520,7 +2598,7 @@ public final class Dto {
                   isClean());
           value_ = null;
         }
-        valueCase_ = 6;
+        valueCase_ = 7;
         onChanged();;
         return anyBuilder_;
       }
@@ -6513,24 +6591,25 @@ public final class Dto {
       "y.proto\"%\n\010Customer\022\014\n\004name\030\001 \001(\t\022\013\n\003age" +
       "\030\002 \001(\005\"f\n\005Click\022A\n\010customer\030\001 \001(\0132/.com." +
       "afterqcd.study.serde.protobuf.dto.Custom" +
-      "er\022\014\n\004time\030\002 \001(\003\022\014\n\004what\030\003 \001(\t\"\213\001\n\007Gener" +
-      "ic\022\r\n\003int\030\001 \001(\005H\000\022\016\n\004long\030\002 \001(\003H\000\022\017\n\005flo" +
-      "at\030\003 \001(\002H\000\022\020\n\006double\030\004 \001(\001H\000\022\020\n\006string\030\005" +
-      " \001(\tH\000\022#\n\003any\030\006 \001(\0132\024.google.protobuf.An" +
-      "yH\000B\007\n\005value\"W\n\tNamedData\022\014\n\004name\030\001 \001(\t\022",
-      "<\n\004data\030\002 \001(\0132..com.afterqcd.study.serde" +
-      ".protobuf.dto.Generic\"\211\001\n\007Context\022>\n\004des" +
-      "c\030\001 \001(\01320.com.afterqcd.study.serde.proto" +
-      "buf.dto.NamedData\022>\n\004size\030\002 \001(\01320.com.af" +
-      "terqcd.study.serde.protobuf.dto.NamedDat" +
-      "a\"S\n\003Log\022;\n\005level\030\001 \001(\0162,.com.afterqcd.s" +
-      "tudy.serde.protobuf.dto.Level\022\017\n\007message" +
-      "\030\002 \001(\t\"X\n\tAttribute\022\014\n\004name\030\001 \001(\t\022=\n\005val" +
-      "ue\030\002 \001(\0132..com.afterqcd.study.serde.prot" +
-      "obuf.dto.Generic\"&\n\006Circle\022\014\n\004name\030\001 \001(\t",
-      "\022\016\n\006radius\030\002 \001(\001\"+\n\006Square\022\014\n\004name\030\001 \001(\t" +
-      "\022\023\n\013side_length\030\002 \001(\001*1\n\005Level\022\t\n\005DEBUG\020" +
-      "\000\022\010\n\004INFO\020\001\022\010\n\004WARN\020\002\022\t\n\005ERROR\020\003b\006proto3"
+      "er\022\014\n\004time\030\002 \001(\003\022\014\n\004what\030\003 \001(\t\"\233\001\n\007Gener" +
+      "ic\022\016\n\004bool\030\001 \001(\010H\000\022\r\n\003int\030\002 \001(\005H\000\022\016\n\004lon" +
+      "g\030\003 \001(\003H\000\022\017\n\005float\030\004 \001(\002H\000\022\020\n\006double\030\005 \001" +
+      "(\001H\000\022\020\n\006string\030\006 \001(\tH\000\022#\n\003any\030\007 \001(\0132\024.go" +
+      "ogle.protobuf.AnyH\000B\007\n\005value\"W\n\tNamedDat",
+      "a\022\014\n\004name\030\001 \001(\t\022<\n\004data\030\002 \001(\0132..com.afte" +
+      "rqcd.study.serde.protobuf.dto.Generic\"\211\001" +
+      "\n\007Context\022>\n\004desc\030\001 \001(\01320.com.afterqcd.s" +
+      "tudy.serde.protobuf.dto.NamedData\022>\n\004siz" +
+      "e\030\002 \001(\01320.com.afterqcd.study.serde.proto" +
+      "buf.dto.NamedData\"S\n\003Log\022;\n\005level\030\001 \001(\0162" +
+      ",.com.afterqcd.study.serde.protobuf.dto." +
+      "Level\022\017\n\007message\030\002 \001(\t\"X\n\tAttribute\022\014\n\004n" +
+      "ame\030\001 \001(\t\022=\n\005value\030\002 \001(\0132..com.afterqcd." +
+      "study.serde.protobuf.dto.Generic\"&\n\006Circ",
+      "le\022\014\n\004name\030\001 \001(\t\022\016\n\006radius\030\002 \001(\001\"+\n\006Squa" +
+      "re\022\014\n\004name\030\001 \001(\t\022\023\n\013side_length\030\002 \001(\001*1\n" +
+      "\005Level\022\t\n\005DEBUG\020\000\022\010\n\004INFO\020\001\022\010\n\004WARN\020\002\022\t\n" +
+      "\005ERROR\020\003b\006proto3"
     };
     com.google.protobuf.Descriptors.FileDescriptor.InternalDescriptorAssigner assigner =
         new com.google.protobuf.Descriptors.FileDescriptor.    InternalDescriptorAssigner() {
@@ -6562,7 +6641,7 @@ public final class Dto {
     internal_static_com_afterqcd_study_serde_protobuf_dto_Generic_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_com_afterqcd_study_serde_protobuf_dto_Generic_descriptor,
-        new java.lang.String[] { "Int", "Long", "Float", "Double", "String", "Any", "Value", });
+        new java.lang.String[] { "Bool", "Int", "Long", "Float", "Double", "String", "Any", "Value", });
     internal_static_com_afterqcd_study_serde_protobuf_dto_NamedData_descriptor =
       getDescriptor().getMessageTypes().get(3);
     internal_static_com_afterqcd_study_serde_protobuf_dto_NamedData_fieldAccessorTable = new

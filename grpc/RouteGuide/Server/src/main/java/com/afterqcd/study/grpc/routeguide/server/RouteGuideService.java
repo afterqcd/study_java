@@ -36,6 +36,7 @@ public class RouteGuideService extends RouteGuideGrpc.RouteGuideImplBase {
 
     @Override
     public void getFeature(Point request, StreamObserver<Feature> response) {
+        System.out.println("getFeature received " + request);
         ServiceDelegator.delegate(request, response, this::getFeature);
     }
 
@@ -82,17 +83,19 @@ public class RouteGuideService extends RouteGuideGrpc.RouteGuideImplBase {
 
     private Observable<RouteSummary> recordRoute(Observable<Point> points) {
         return points.reduce(new Summary(), (s, p) -> {
-                s.pointCount++;
-                if (checkFeature(p) != null) {
-                    s.featureCount++;
-                }
-                return s;
-            }).map(s -> RouteSummary.newBuilder()
-                    .setPointCount(s.pointCount)
-                    .setFeatureCount(s.featureCount)
-                    .setElapsedTime((int) TimeUnit.NANOSECONDS.toSeconds(System.nanoTime() - s.startTime))
-                    .build()
-            );
+            System.out.println("recordRoute received " + p);
+            s.pointCount++;
+            if (checkFeature(p) != null) {
+                s.featureCount++;
+            }
+            return s;
+        }).map(s -> RouteSummary.newBuilder()
+                .setPointCount(s.pointCount)
+                .setFeatureCount(s.featureCount)
+                .setElapsedTime((int) TimeUnit.NANOSECONDS.toSeconds(
+                        System.nanoTime() - s.startTime
+                )).build()
+        );
     }
 
     @Override
@@ -102,9 +105,11 @@ public class RouteGuideService extends RouteGuideGrpc.RouteGuideImplBase {
 
     private Observable<RouteNote> routeChat(Observable<RouteNote> request) {
         return request.flatMap(note -> {
-            List<RouteNote> previousNotes = getOrCreateNotes(note.getLocation());
-            Observable<RouteNote> response = Observable.from(previousNotes.toArray(new RouteNote[previousNotes.size()]));
-            previousNotes.add(note);
+            List<RouteNote> preNotes = getOrCreateNotes(note.getLocation());
+            Observable<RouteNote> response = Observable.from(
+                    preNotes.toArray(new RouteNote[preNotes.size()])
+            );
+            preNotes.add(note);
             return response;
         });
     }

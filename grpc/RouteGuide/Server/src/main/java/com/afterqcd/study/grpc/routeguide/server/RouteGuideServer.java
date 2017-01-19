@@ -64,14 +64,11 @@ public class RouteGuideServer {
     public void start() throws IOException {
         this.server.start();
         System.out.println("Server started, listening on " + port);
-        Runtime.getRuntime().addShutdownHook(new Thread() {
-            @Override
-            public void run() {
-                System.out.println("Shutting down the server");
-                RouteGuideServer.this.stop();
-                System.out.println("Server shut down");
-            }
-        });
+        Runtime.getRuntime().addShutdownHook(new Thread(() -> {
+            System.out.println("Shutting down the server");
+            RouteGuideServer.this.stop();
+            System.out.println("Server shut down");
+        }));
     }
 
     public void stop() {

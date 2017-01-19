@@ -6,15 +6,48 @@ import com.afterqcd.study.grpc.routeguide.model.RouteNote;
 import rx.Observable;
 
 import java.util.concurrent.CountDownLatch;
+import java.util.concurrent.TimeUnit;
 
 /**
  * Created by afterqcd on 2017/1/13.
  */
 public class RouteGuideClient {
     public static void main(String[] args) throws Exception {
-        CountDownLatch latch = new CountDownLatch(5);
-
         RouteGuideStub stub = new RouteGuideStub("dns:///route-guide.default.svc:18980");
+        featureTest(stub);
+
+        String mode = args[0];
+        if ("stream".equalsIgnoreCase(mode)) {
+            longStreamRequest(stub);
+        } else {
+            loopBasicRequest(stub);
+        }
+    }
+
+    private static void loopBasicRequest(RouteGuideStub stub) throws InterruptedException {
+        while (true) {
+            Thread.sleep(500);
+            stub.getFeatureAsync(point(408122808, -743999179)).subscribe(System.out::println);
+        }
+    }
+
+    private static void longStreamRequest(RouteGuideStub stub) throws InterruptedException {
+        Observable<Point> points = Observable.interval(500, TimeUnit.MILLISECONDS)
+                .map(i -> {
+                    System.out.println("Send point " + i);
+                    return point(i.intValue(), i.intValue());
+                });
+        CountDownLatch latch = new CountDownLatch(1);
+        stub.recordRoute(points).subscribe(
+                System.out::println,
+                e -> { e.printStackTrace(); latch.countDown(); },
+                latch::countDown
+        );
+        latch.await();
+    }
+
+    private static void featureTest(RouteGuideStub stub) throws InterruptedException {
+        CountDownLatch latch = new CountDownLatch(5);
 
         System.out.println(stub.getFeature(point(408122808, -743999179)));
         System.out.println(stub.getFeature(point(1, 1)));

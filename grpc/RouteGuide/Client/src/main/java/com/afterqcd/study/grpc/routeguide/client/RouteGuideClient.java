@@ -14,7 +14,7 @@ public class RouteGuideClient {
     public static void main(String[] args) throws Exception {
         CountDownLatch latch = new CountDownLatch(5);
 
-        RouteGuideStub stub = new RouteGuideStub("FX", 8980);
+        RouteGuideStub stub = new RouteGuideStub("dns:///route-guide.default.svc:18980");
 
         System.out.println(stub.getFeature(point(408122808, -743999179)));
         System.out.println(stub.getFeature(point(1, 1)));

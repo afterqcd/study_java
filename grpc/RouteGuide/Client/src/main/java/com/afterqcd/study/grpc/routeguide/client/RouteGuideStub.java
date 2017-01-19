@@ -24,11 +24,10 @@ public class RouteGuideStub {
     private final ManagedChannel channel;
     private final RouteGuideGrpc.RouteGuideBlockingStub blockingStub;
     private final RouteGuideGrpc.RouteGuideStub asyncStub;
-    private final RouteGuideGrpc.RouteGuideFutureStub futureStub;
 
-    public RouteGuideStub(String host, int port) throws SSLException {
+    public RouteGuideStub(String target) throws SSLException {
         this(
-                NettyChannelBuilder.forAddress(host, port)
+                NettyChannelBuilder.forTarget(target)
                         .usePlaintext(true)
 //                        .sslContext(getSslContext())
         );
@@ -44,7 +43,6 @@ public class RouteGuideStub {
         this.channel = channelBuilder.build();
         this.blockingStub = RouteGuideGrpc.newBlockingStub(this.channel);
         this.asyncStub = RouteGuideGrpc.newStub(this.channel);
-        this.futureStub = RouteGuideGrpc.newFutureStub(this.channel);
     }
 
     public void shutdown() throws InterruptedException {

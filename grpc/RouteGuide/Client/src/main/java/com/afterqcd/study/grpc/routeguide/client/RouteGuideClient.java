@@ -14,7 +14,7 @@ import java.util.concurrent.TimeUnit;
 public class RouteGuideClient {
     public static void main(String[] args) throws Exception {
         RouteGuideStub stub = new RouteGuideStub("dns:///route-guide.default.svc:18980");
-        featureTest(stub);
+//        featureTest(stub);
 
         String mode = args[0];
         if ("stream".equalsIgnoreCase(mode)) {

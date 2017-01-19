@@ -11,6 +11,7 @@ import io.grpc.ManagedChannel;
 import io.grpc.ManagedChannelBuilder;
 import io.grpc.netty.GrpcSslContexts;
 import io.grpc.netty.NettyChannelBuilder;
+import io.grpc.util.RoundRobinLoadBalancerFactory;
 import io.netty.handler.ssl.SslContext;
 import rx.Observable;
 
@@ -28,6 +29,7 @@ public class RouteGuideStub {
     public RouteGuideStub(String target) throws SSLException {
         this(
                 NettyChannelBuilder.forTarget(target)
+                        .loadBalancerFactory(RoundRobinLoadBalancerFactory.getInstance())
                         .usePlaintext(true)
 //                        .sslContext(getSslContext())
         );

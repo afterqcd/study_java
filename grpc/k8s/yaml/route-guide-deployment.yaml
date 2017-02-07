@@ -1,0 +1,26 @@
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+  name: route-guide
+spec:
+  replicas: 2
+  template:
+    metadata:
+      labels:
+        app: route-guide
+    spec:
+      containers:
+      - name: route-guide
+        image: shuyou01:5000/nghttp2:1.18.1-alpine
+        imagePullPolicy: Always
+        ports:
+        - containerPort: 8980
+        env:
+        - name: PORT
+          value: "8980"
+        - name: BACKEND_DNS
+          value: "route-guide-b"
+        command:
+        - sh
+        - -c
+        - /bin/start.sh

@@ -13,22 +13,23 @@ import java.util.concurrent.TimeUnit;
  */
 public class RouteGuideClient {
     public static void main(String[] args) throws Exception {
-        RouteGuideStub stub = new RouteGuideStub("dns:///route-guide.default.svc:8980");
-//        featureTest(stub);
+//        RouteGuideStub stub = new RouteGuideStub("dns:///route-guide.default.svc:8980");
+        RouteGuideStub stub = new RouteGuideStub("127.0.0.1:8080");
+        featureTest(stub);
 
-        String mode = args[0];
-        if ("stream".equalsIgnoreCase(mode)) {
-            longStreamRequest(stub);
-        } else {
-            loopBasicRequest(stub);
-        }
+//        String mode = args[0];
+//        if ("stream".equalsIgnoreCase(mode)) {
+//            longStreamRequest(stub);
+//        } else {
+//            loopBasicRequest(stub);
+//        }
     }
 
     private static void loopBasicRequest(RouteGuideStub stub) throws InterruptedException {
-        while (true) {
-            Thread.sleep(500);
+//        while (true) {
+//            Thread.sleep(500);
             stub.getFeatureAsync(point(408122808, -743999179)).subscribe(System.out::println);
-        }
+//        }
     }
 
     private static void longStreamRequest(RouteGuideStub stub) throws InterruptedException {

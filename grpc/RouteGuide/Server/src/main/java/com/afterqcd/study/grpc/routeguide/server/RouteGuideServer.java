@@ -84,7 +84,7 @@ public class RouteGuideServer {
     }
 
     public static void main(String[] args) throws Exception {
-        RouteGuideServer server = new RouteGuideServer(8980);
+        RouteGuideServer server = new RouteGuideServer(80);
         server.start();
         server.blockUtilShutdown();
     }

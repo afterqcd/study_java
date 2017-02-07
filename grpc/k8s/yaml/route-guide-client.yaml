@@ -1,0 +1,20 @@
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: route-guide-client
+spec:
+  activeDeadlineSeconds: 100
+  template:
+    metadata:
+      name: route-guide-client
+    spec:
+      containers:
+      - name: route-guide-client
+        image: shuyou01:5000/route-guide-client:1.0
+        imagePullPolicy: Always
+        command: 
+        - /bin/sh
+        args: 
+        - -c
+        - java -Djava.ext.dirs=/usr/app/${APP}-${APP_VERSION}/lib com.afterqcd.study.grpc.routeguide.client.RouteGuideClient basic
+      restartPolicy: Never

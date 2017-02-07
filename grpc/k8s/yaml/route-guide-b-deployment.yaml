@@ -1,0 +1,17 @@
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+  name: route-guide-b
+spec:
+  replicas: 2
+  template:
+    metadata:
+      labels:
+        app: route-guide-b
+    spec:
+      containers:
+      - name: route-guide
+        image: shuyou01:5000/route-guide-service:1.0
+        imagePullPolicy: Always
+        ports:
+        - containerPort: 8980

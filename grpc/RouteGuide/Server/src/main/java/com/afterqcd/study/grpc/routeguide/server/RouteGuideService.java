@@ -14,9 +14,11 @@ import com.google.common.collect.Lists;
 import io.grpc.stub.StreamObserver;
 import rx.Observable;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
+import java.util.Date;
 import java.util.List;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ConcurrentMap;
@@ -28,6 +30,7 @@ import java.util.concurrent.TimeUnit;
 public class RouteGuideService extends RouteGuideGrpc.RouteGuideImplBase {
     private final List<Feature> features;
     private final ConcurrentMap<Point, List<RouteNote>> routeNotes;
+    private final SimpleDateFormat format = new SimpleDateFormat("yyyyMMdd HH:mm:ss");
 
     public RouteGuideService(Collection<Feature> features) {
         this.features = Lists.newArrayList(features);
@@ -36,7 +39,8 @@ public class RouteGuideService extends RouteGuideGrpc.RouteGuideImplBase {
 
     @Override
     public void getFeature(Point request, StreamObserver<Feature> response) {
-        System.out.println("getFeature received " + request);
+        System.out.println("getFeature @ " + format.format(new Date()));
+        System.out.println();
         ServiceDelegator.delegate(request, response, this::getFeature);
     }
 

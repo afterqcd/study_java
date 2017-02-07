@@ -10,8 +10,12 @@ package routeguide;
 import "route_guide_model.proto";
 
 service RouteGuide {
+    // POST /routeguide.RouteGuide/GetFeature
     rpc GetFeature(Point) returns (Feature) {}
+    // POST /routeguide.RouteGuide/ListFeatures
     rpc ListFeatures(Rectangle) returns (stream Feature) {}
+    // POST /routeguide.RouteGuide/RecordRoute
     rpc RecordRoute(stream Point) returns (RouteSummary) {}
+    // POST /routeguide.RouteGuide/RouteChat
     rpc RouteChat(stream RouteNote) returns (stream RouteNote) {}
 }

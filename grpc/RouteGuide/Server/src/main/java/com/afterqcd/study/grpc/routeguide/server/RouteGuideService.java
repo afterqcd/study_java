@@ -3,7 +3,7 @@ package com.afterqcd.study.grpc.routeguide.server;
 import static java.lang.Integer.max;
 import static java.lang.Integer.min;
 
-import com.afterqcd.study.grpc.ServiceDelegator;
+import com.afterqcd.study.grpc.Method;
 import com.afterqcd.study.grpc.routeguide.model.Feature;
 import com.afterqcd.study.grpc.routeguide.model.Point;
 import com.afterqcd.study.grpc.routeguide.model.Rectangle;
@@ -41,7 +41,7 @@ public class RouteGuideService extends RouteGuideGrpc.RouteGuideImplBase {
     public void getFeature(Point request, StreamObserver<Feature> response) {
         System.out.println("getFeature @ " + format.format(new Date()));
         System.out.println();
-        ServiceDelegator.delegate(request, response, this::getFeature);
+        Method.delegate(request, response, this::getFeature);
     }
 
     private Observable<Feature> getFeature(Point point) {
@@ -63,7 +63,7 @@ public class RouteGuideService extends RouteGuideGrpc.RouteGuideImplBase {
 
     @Override
     public void listFeatures(Rectangle request, StreamObserver<Feature> response) {
-        ServiceDelegator.delegate(request, response, this::listFeatures);
+        Method.delegate(request, response, this::listFeatures);
     }
 
     private Observable<Feature> listFeatures(Rectangle rectangle) {
@@ -82,7 +82,7 @@ public class RouteGuideService extends RouteGuideGrpc.RouteGuideImplBase {
 
     @Override
     public StreamObserver<Point> recordRoute(StreamObserver<RouteSummary> response) {
-        return ServiceDelegator.delegateWithClientStream(response, this::recordRoute);
+        return Method.delegateWithClientStream(response, this::recordRoute);
     }
 
     private Observable<RouteSummary> recordRoute(Observable<Point> points) {
@@ -104,7 +104,7 @@ public class RouteGuideService extends RouteGuideGrpc.RouteGuideImplBase {
 
     @Override
     public StreamObserver<RouteNote> routeChat(StreamObserver<RouteNote> response) {
-        return ServiceDelegator.delegateWithClientStream(response, this::routeChat);
+        return Method.delegateWithClientStream(response, this::routeChat);
     }
 
     private Observable<RouteNote> routeChat(Observable<RouteNote> request) {

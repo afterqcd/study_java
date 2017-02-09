@@ -8,16 +8,16 @@ import rx.observers.Observers;
 /**
  * Created by afterqcd on 2017/1/17.
  */
-public class Pipe {
+class Pipe {
     static <T> void pipe(final Observable<T> from, final StreamObserver<T> to) {
-        from.subscribe(observer(to));
+        from.subscribe(rxObserver(to));
     }
 
-    private static <T> Observer<T> observer(final StreamObserver<T> to) {
+    private static <T> Observer<T> rxObserver(final StreamObserver<T> to) {
         return Observers.create(to::onNext, to::onError, to::onCompleted);
     }
 
-    static <O> StreamObserver<O> streamObserver(final Observer<? super O> observer) {
+    static <O> StreamObserver<O> grpcObserver(final Observer<? super O> observer) {
         return new StreamObserver<O>() {
             @Override
             public void onNext(O o) {

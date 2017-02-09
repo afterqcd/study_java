@@ -14,7 +14,7 @@ import java.util.concurrent.TimeUnit;
 public class RouteGuideClient {
     public static void main(String[] args) throws Exception {
 //        RouteGuideStub stub = new RouteGuideStub("dns:///route-guide.default.svc:8980");
-        RouteGuideStub stub = new RouteGuideStub("127.0.0.1:8080");
+        RouteGuideStub stub = new RouteGuideStub("127.0.0.1:8980");
         featureTest(stub);
 
 //        String mode = args[0];

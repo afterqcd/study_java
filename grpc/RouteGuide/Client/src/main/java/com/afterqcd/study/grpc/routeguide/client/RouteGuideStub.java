@@ -1,6 +1,7 @@
 package com.afterqcd.study.grpc.routeguide.client;
 
-import com.afterqcd.study.grpc.StubWrapper;
+import com.afterqcd.study.grpc.Method;
+import com.afterqcd.study.grpc.StubBuilder;
 import com.afterqcd.study.grpc.routeguide.model.Feature;
 import com.afterqcd.study.grpc.routeguide.model.Point;
 import com.afterqcd.study.grpc.routeguide.model.Rectangle;
@@ -24,7 +25,7 @@ import javax.net.ssl.SSLException;
 public class RouteGuideStub {
     private final ManagedChannel channel;
     private final RouteGuideGrpc.RouteGuideBlockingStub blockingStub;
-    private final RouteGuideGrpc.RouteGuideStub asyncStub;
+    private final RouteGuideGrpc.RouteGuideStub stub;
 
     public RouteGuideStub(String target) throws SSLException {
         this(
@@ -43,8 +44,15 @@ public class RouteGuideStub {
 
     public RouteGuideStub(ManagedChannelBuilder channelBuilder) {
         this.channel = channelBuilder.build();
-        this.blockingStub = RouteGuideGrpc.newBlockingStub(this.channel);
-        this.asyncStub = RouteGuideGrpc.newStub(this.channel);
+
+//        this.blockingStub = RouteGuideGrpc.newBlockingStub(this.channel);
+//        this.stub = RouteGuideGrpc.newStub(this.channel);
+
+        StubBuilder stubBuilder = StubBuilder.newBuilder(RouteGuideGrpc.class)
+                .targetServiceName("route-guide")
+                .channel(this.channel);
+        this.blockingStub = stubBuilder.buildBlockingStub();
+        this.stub = stubBuilder.buildStub();
     }
 
     public void shutdown() throws InterruptedException {
@@ -68,7 +76,7 @@ public class RouteGuideStub {
      * @return
      */
     public Observable<Feature> getFeatureAsync(Point point) {
-        return StubWrapper.wrap(point, asyncStub::getFeature);
+        return Method.wrap(point, stub::getFeature);
     }
 
     /**
@@ -78,14 +86,14 @@ public class RouteGuideStub {
      * @return
      */
     public Observable<Feature> listFeatures(Rectangle rectangle) {
-        return StubWrapper.wrap(rectangle, asyncStub::listFeatures);
+        return Method.wrap(rectangle, stub::listFeatures);
     }
 
     public Observable<RouteSummary> recordRoute(Observable<Point> points) {
-        return StubWrapper.wrapWithClientStream(points, asyncStub::recordRoute);
+        return Method.wrapWithClientStream(points, stub::recordRoute);
     }
 
     public Observable<RouteNote> routeChat(Observable<RouteNote> routeNotes) {
-        return StubWrapper.wrapWithClientStream(routeNotes, asyncStub::routeChat);
+        return Method.wrapWithClientStream(routeNotes, stub::routeChat);
     }
 }

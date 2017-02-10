@@ -2,9 +2,9 @@ package com.afterqcd.study.java.gson;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
+import com.google.gson.LongSerializationPolicy;
 import com.google.gson.reflect.TypeToken;
 
-import java.lang.reflect.Modifier;
 import java.util.Arrays;
 
 /**
@@ -18,6 +18,8 @@ public class GsonDemo {
         readObject();
         readObjectByType();
         dealWithFinalField();
+        parseStringToNumber();
+        longSerialization();
     }
 
     private static void readArray() {
@@ -46,5 +48,33 @@ public class GsonDemo {
         People people1 = gson.fromJson("{\"type\":\"People\",\"name\":\"zhangsan\"}", People.class);
         System.out.println(people1.getName());
         System.out.println(people1.type);
+    }
+
+    private static void parseStringToNumber() {
+        Num2 num2 = new Num2();
+        num2.setNum("123456");
+
+        Gson gson = new GsonBuilder().create();
+
+        String str = gson.toJson(num2);
+        System.out.println(str);
+
+        Num num = gson.fromJson(str, Num.class);
+        System.out.println(num.getNum());
+    }
+
+    private static void longSerialization() {
+        Num num = new Num();
+        num.setNum(123456);
+
+        Gson gson = new GsonBuilder()
+                .setLongSerializationPolicy(LongSerializationPolicy.STRING)
+                .create();
+
+        String str = gson.toJson(num);
+        System.out.println(str);
+
+        Num num2 = gson.fromJson(str, Num.class);
+        System.out.println(num2.getNum());
     }
 }

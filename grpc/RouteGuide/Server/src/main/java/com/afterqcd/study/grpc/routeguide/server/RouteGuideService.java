@@ -3,7 +3,6 @@ package com.afterqcd.study.grpc.routeguide.server;
 import static java.lang.Integer.max;
 import static java.lang.Integer.min;
 
-import com.afterqcd.study.grpc.Method;
 import com.afterqcd.study.grpc.routeguide.model.Feature;
 import com.afterqcd.study.grpc.routeguide.model.Point;
 import com.afterqcd.study.grpc.routeguide.model.Rectangle;
@@ -11,7 +10,6 @@ import com.afterqcd.study.grpc.routeguide.model.RouteNote;
 import com.afterqcd.study.grpc.routeguide.model.RouteSummary;
 import com.afterqcd.study.grpc.routeguide.service.RouteGuideGrpc;
 import com.google.common.collect.Lists;
-import io.grpc.stub.StreamObserver;
 import rx.Observable;
 
 import java.text.SimpleDateFormat;
@@ -38,13 +36,9 @@ public class RouteGuideService extends RouteGuideGrpc.RouteGuideImplBase {
     }
 
     @Override
-    public void getFeature(Point request, StreamObserver<Feature> response) {
+    public Observable<Feature> getFeature(Point point) {
         System.out.println("getFeature @ " + format.format(new Date()));
         System.out.println();
-        Method.delegate(request, response, this::getFeature);
-    }
-
-    private Observable<Feature> getFeature(Point point) {
         Feature feature = checkFeature(point);
         if (feature == null) {
             feature = Feature.newBuilder().setName("").setLocation(point).build();
@@ -62,11 +56,7 @@ public class RouteGuideService extends RouteGuideGrpc.RouteGuideImplBase {
     }
 
     @Override
-    public void listFeatures(Rectangle request, StreamObserver<Feature> response) {
-        Method.delegate(request, response, this::listFeatures);
-    }
-
-    private Observable<Feature> listFeatures(Rectangle rectangle) {
+    public Observable<Feature> listFeatures(Rectangle rectangle) {
         final int left = min(rectangle.getLo().getLongitude(), rectangle.getHi().getLongitude());
         final int right = max(rectangle.getLo().getLongitude(), rectangle.getHi().getLongitude());
         final int top = max(rectangle.getLo().getLatitude(), rectangle.getHi().getLatitude());
@@ -81,11 +71,7 @@ public class RouteGuideService extends RouteGuideGrpc.RouteGuideImplBase {
     }
 
     @Override
-    public StreamObserver<Point> recordRoute(StreamObserver<RouteSummary> response) {
-        return Method.delegateWithClientStream(response, this::recordRoute);
-    }
-
-    private Observable<RouteSummary> recordRoute(Observable<Point> points) {
+    public Observable<RouteSummary> recordRoute(Observable<Point> points) {
         return points.reduce(new Summary(), (s, p) -> {
             System.out.println("recordRoute received " + p);
             s.pointCount++;
@@ -103,11 +89,7 @@ public class RouteGuideService extends RouteGuideGrpc.RouteGuideImplBase {
     }
 
     @Override
-    public StreamObserver<RouteNote> routeChat(StreamObserver<RouteNote> response) {
-        return Method.delegateWithClientStream(response, this::routeChat);
-    }
-
-    private Observable<RouteNote> routeChat(Observable<RouteNote> request) {
+    public Observable<RouteNote> routeChat(Observable<RouteNote> request) {
         return request.flatMap(note -> {
             List<RouteNote> preNotes = getOrCreateNotes(note.getLocation());
             Observable<RouteNote> response = Observable.from(

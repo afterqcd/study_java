@@ -1,7 +1,5 @@
 package com.afterqcd.study.grpc.routeguide.client;
 
-import com.afterqcd.study.grpc.Method;
-import com.afterqcd.study.grpc.StubBuilder;
 import com.afterqcd.study.grpc.routeguide.model.Feature;
 import com.afterqcd.study.grpc.routeguide.model.Point;
 import com.afterqcd.study.grpc.routeguide.model.Rectangle;
@@ -45,14 +43,8 @@ public class RouteGuideStub {
     public RouteGuideStub(ManagedChannelBuilder channelBuilder) {
         this.channel = channelBuilder.build();
 
-//        this.blockingStub = RouteGuideGrpc.newBlockingStub(this.channel);
-//        this.stub = RouteGuideGrpc.newStub(this.channel);
-
-        StubBuilder stubBuilder = StubBuilder.newBuilder(RouteGuideGrpc.class)
-                .targetServiceName("route-guide")
-                .channel(this.channel);
-        this.blockingStub = stubBuilder.buildBlockingStub();
-        this.stub = stubBuilder.buildStub();
+        this.blockingStub = RouteGuideGrpc.newBlockingStub(this.channel);
+        this.stub = RouteGuideGrpc.newStub(this.channel);
     }
 
     public void shutdown() throws InterruptedException {
@@ -76,7 +68,7 @@ public class RouteGuideStub {
      * @return
      */
     public Observable<Feature> getFeatureAsync(Point point) {
-        return Method.wrap(point, stub::getFeature);
+        return stub.getFeature(point);
     }
 
     /**
@@ -86,14 +78,14 @@ public class RouteGuideStub {
      * @return
      */
     public Observable<Feature> listFeatures(Rectangle rectangle) {
-        return Method.wrap(rectangle, stub::listFeatures);
+        return stub.listFeatures(rectangle);
     }
 
     public Observable<RouteSummary> recordRoute(Observable<Point> points) {
-        return Method.wrapWithClientStream(points, stub::recordRoute);
+        return stub.recordRoute(points);
     }
 
     public Observable<RouteNote> routeChat(Observable<RouteNote> routeNotes) {
-        return Method.wrapWithClientStream(routeNotes, stub::routeChat);
+        return stub.routeChat(routeNotes);
     }
 }

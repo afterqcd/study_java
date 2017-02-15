@@ -1,11 +1,11 @@
 package com.afterqcd.study.grpc;
 
-import static com.afterqcd.study.grpc.Pipe.*;
-
 import io.grpc.stub.StreamObserver;
 import rx.Observable;
+import rx.Observer;
 import rx.functions.Action2;
 import rx.functions.Func1;
+import rx.observers.Observers;
 import rx.subjects.PublishSubject;
 
 /**
@@ -37,7 +37,7 @@ public class Method {
     public static <I, O> Observable<O> wrapWithClientStream(
             final Observable<I> inputObservable,
             final Func1<StreamObserver<O>, StreamObserver<I>> method) {
-        return Observable.create(sub -> pipe(inputObservable, method.call(grpcObserver(sub))));
+        return Observable.create(sub -> inputObservable.subscribe(rxObserver(method.call(grpcObserver(sub)))));
     }
 
     /**
@@ -53,7 +53,7 @@ public class Method {
             final I input,
             final StreamObserver<O> outputObserver,
             final Func1<I, Observable<O>> method) {
-        pipe(method.call(input), outputObserver);
+        method.call(input).subscribe(rxObserver(outputObserver));
     }
 
     /**
@@ -69,7 +69,46 @@ public class Method {
             final StreamObserver<O> outputObserver,
             final Func1<Observable<I>, Observable<O>> method) {
         PublishSubject<I> input = PublishSubject.create();
-        pipe(method.call(input), outputObserver);
+        method.call(input).subscribe(rxObserver(outputObserver));
         return grpcObserver(input);
+    }
+
+    /**
+     * 将{@link StreamObserver}包装成{@link Observer}
+     * @param grpcObserver
+     * @param <T>
+     * @return
+     */
+    private static <T> Observer<T> rxObserver(final StreamObserver<T> grpcObserver) {
+        return Observers.create(
+                grpcObserver::onNext,
+                grpcObserver::onError,
+                grpcObserver::onCompleted
+        );
+    }
+
+    /**
+     * 将{@link Observer}包装成{@link StreamObserver}
+     * @param rxObserver
+     * @param <O>
+     * @return
+     */
+    private static <O> StreamObserver<O> grpcObserver(final Observer<? super O> rxObserver) {
+        return new StreamObserver<O>() {
+            @Override
+            public void onNext(O o) {
+                rxObserver.onNext(o);
+            }
+
+            @Override
+            public void onError(Throwable throwable) {
+                rxObserver.onError(throwable);
+            }
+
+            @Override
+            public void onCompleted() {
+                rxObserver.onCompleted();
+            }
+        };
     }
 }

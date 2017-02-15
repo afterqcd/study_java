@@ -22,8 +22,8 @@ import javax.net.ssl.SSLException;
  */
 public class RouteGuideStub {
     private final ManagedChannel channel;
-    private final RouteGuideGrpc.RouteGuideBlockingStub blockingStub;
-    private final RouteGuideGrpc.RouteGuideStub stub;
+    public final RouteGuideGrpc.RouteGuideBlockingStub blockingStub;
+    public final RouteGuideGrpc.RouteGuideStub stub;
 
     public RouteGuideStub(String target) throws SSLException {
         this(

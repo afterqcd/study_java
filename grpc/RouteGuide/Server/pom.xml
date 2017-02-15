@@ -49,6 +49,22 @@
                 </configuration>
             </plugin>
             <plugin>
+                <groupId>pl.project13.maven</groupId>
+                <artifactId>git-commit-id-plugin</artifactId>
+                <version>2.2.0</version>
+                <executions>
+                    <execution>
+                        <goals>
+                            <goal>revision</goal>
+                        </goals>
+                    </execution>
+                </executions>
+                <configuration>
+                    <dateFormatTimeZone>${user.timezone}</dateFormatTimeZone>
+                    <verbose>true</verbose>
+                </configuration>
+            </plugin>
+            <plugin>
                 <artifactId>maven-assembly-plugin</artifactId>
                 <version>2.5.5</version>
                 <executions>
@@ -70,7 +86,7 @@
                 <artifactId>docker-maven-plugin</artifactId>
                 <version>0.4.0</version>
                 <configuration>
-                    <imageName>${docker.repository}/${image.name}:${image.main.version}</imageName>
+                    <imageName>${docker.repository}/${image.name}:${image.main.version}-${git.commit.id.abbrev}</imageName>
                     <baseImage>java:8-jdk-alpine</baseImage>
                     <entryPoint>["java", "-cp", "/${project.build.finalName}-jar-with-dependencies.jar", "${main.class}"]</entryPoint>
                     <resources>

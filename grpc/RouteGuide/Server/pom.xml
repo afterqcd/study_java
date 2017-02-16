@@ -3,15 +3,20 @@
          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
-    <groupId>com.afterqcd.study</groupId>
     <artifactId>grpc-route-guide-server</artifactId>
-    <version>1.0-SNAPSHOT</version>
+    <version>1.1-SNAPSHOT</version>
+
+    <parent>
+        <groupId>com.afterqcd.study</groupId>
+        <artifactId>docker-image</artifactId>
+        <version>1.0-SNAPSHOT</version>
+    </parent>
 
     <properties>
-        <docker.repository>shuyou01:5000</docker.repository>
-        <image.name>route-guide</image.name>
-        <image.main.version>1.0</image.main.version>
         <main.class>com.afterqcd.study.grpc.routeguide.server.RouteGuideServer</main.class>
+        <image.repository>shuyou01:5000</image.repository>
+        <image.name>route-guide</image.name>
+        <image.major.version>${version}</image.major.version>
     </properties>
 
     <dependencies>
@@ -19,16 +24,6 @@
             <groupId>com.afterqcd.study</groupId>
             <artifactId>grpc-route-guide-generated</artifactId>
             <version>1.0-SNAPSHOT</version>
-        </dependency>
-        <dependency>
-            <groupId>com.afterqcd.study</groupId>
-            <artifactId>grpc-wrapper</artifactId>
-            <version>1.0-SNAPSHOT</version>
-        </dependency>
-        <dependency>
-            <groupId>io.reactivex</groupId>
-            <artifactId>rxjava</artifactId>
-            <version>1.1.8</version>
         </dependency>
         <!--<dependency>-->
             <!--<groupId>io.netty</groupId>-->
@@ -38,65 +33,18 @@
     </dependencies>
 
     <build>
-        <finalName>app</finalName>
+        <finalName>executable</finalName>
         <plugins>
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-compiler-plugin</artifactId>
-                <configuration>
-                    <source>1.8</source>
-                    <target>1.8</target>
-                </configuration>
-            </plugin>
             <plugin>
                 <groupId>pl.project13.maven</groupId>
                 <artifactId>git-commit-id-plugin</artifactId>
-                <version>2.2.0</version>
-                <executions>
-                    <execution>
-                        <goals>
-                            <goal>revision</goal>
-                        </goals>
-                    </execution>
-                </executions>
-                <configuration>
-                    <dateFormatTimeZone>${user.timezone}</dateFormatTimeZone>
-                    <verbose>true</verbose>
-                </configuration>
             </plugin>
             <plugin>
                 <artifactId>maven-assembly-plugin</artifactId>
-                <version>2.5.5</version>
-                <executions>
-                    <execution>
-                        <phase>package</phase>
-                        <goals>
-                            <goal>single</goal>
-                        </goals>
-                        <configuration>
-                            <descriptorRefs>
-                                <descriptorRef>jar-with-dependencies</descriptorRef>
-                            </descriptorRefs>
-                        </configuration>
-                    </execution>
-                </executions>
             </plugin>
             <plugin>
                 <groupId>com.spotify</groupId>
                 <artifactId>docker-maven-plugin</artifactId>
-                <version>0.4.0</version>
-                <configuration>
-                    <imageName>${docker.repository}/${image.name}:${image.main.version}-${git.commit.id.abbrev}</imageName>
-                    <baseImage>java:8-jdk-alpine</baseImage>
-                    <entryPoint>["java", "-cp", "/${project.build.finalName}-jar-with-dependencies.jar", "${main.class}"]</entryPoint>
-                    <resources>
-                        <resource>
-                            <targetPath>/</targetPath>
-                            <directory>${project.build.directory}</directory>
-                            <include>${project.build.finalName}-jar-with-dependencies.jar</include>
-                        </resource>
-                    </resources>
-                </configuration>
             </plugin>
         </plugins>
     </build>

@@ -1,9 +1,10 @@
 pipeline {
-    agent any
+    agent { label 'docker' }
     stages {
         stage('Build') {
             steps {
-                sh 'env | sort'
+                sh 'mvn -v'
+                sh 'docker version'
             }
         }
     }

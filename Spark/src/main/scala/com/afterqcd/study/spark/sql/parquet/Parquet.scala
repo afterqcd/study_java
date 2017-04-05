@@ -1,7 +1,5 @@
 package com.afterqcd.study.spark.sql.parquet
 
-import java.util.Date
-
 import com.google.gson.Gson
 import org.apache.spark.sql.SQLContext
 import org.apache.spark.{SparkConf, SparkContext}
@@ -27,16 +25,16 @@ object Parquet {
 
   private def write(sc: SparkContext, sqlContext: SQLContext): Unit = {
     val peopleRDD = sc.parallelize(Seq(
-      new  People("bob", 15, "male", "US"),
-      new  People("jimmy", 25, "male", "US"),
-      new  People("cathy", 30, "female", "CN"),
-      new  People("zhangsan", 50, "male", "CN"),
-      new  People("wangwu", 50, "male", "CN"),
-      new  People("bob", 15, "male", "US"),
-      new  People("jimmy", 25, "male", "US"),
-      new  People("cathy", 30, "female", "CN"),
-      new  People("zhangsan", 50, "male", "CN"),
-      new  People("wangwu", 50, "male", "CN")
+      People("bob", 15, "male", "US"),
+      People("jimmy", 25, "male", "US"),
+      People("cathy", 30, "female", "CN"),
+      People("zhangsan", 50, "male", "CN"),
+      People("wangwu", 50, "male", "CN"),
+      People("bob", 15, "male", "US"),
+      People("jimmy", 25, "male", "US"),
+      People("cathy", 30, "female", "CN"),
+      People("zhangsan", 50, "male", "CN"),
+      People("wangwu", 50, "male", "CN")
     ))
 
     val people = sqlContext.createDataFrame(peopleRDD)
@@ -59,6 +57,9 @@ object Parquet {
     val dates = Seq("20160830", "20160831", "20160901", "20160902", "20160903", "20160904", "20160905", "20160906", "20160907")
     val paths = dates.map("/Users/afterqcd/Desktop/normalized/" + _)
     val memberBehavior = sqlContext.read.parquet(paths: _*)
+
+    import sqlContext.sparkSession.implicits._
+
     memberBehavior.map { row =>
       MemberBehavior(
         date = row.getAs[String]("theDate"),
@@ -70,7 +71,7 @@ object Parquet {
         brandName = row.getAs[String]("brandName"),
         seriesName = row.getAs[String]("seriesName")
       )
-    }.map(gson.toJson).saveAsTextFile("/Users/afterqcd/Desktop/MemberBehavior")
+    }.map(gson.toJson).write.text("/Users/afterqcd/Desktop/MemberBehavior")
   }
 }
 

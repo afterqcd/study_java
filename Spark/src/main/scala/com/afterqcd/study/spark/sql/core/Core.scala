@@ -42,7 +42,9 @@ object Core {
   private def executeSql(sqlContext: SQLContext) = {
     val file = resourceFile("people.json")
     val people = sqlContext.read.json(file)
-    people.registerTempTable("people")
+    people.createOrReplaceTempView("people")
+
+    import sqlContext.sparkSession.implicits._
 
     val teenagers = sqlContext.sql("SELECT name, age FROM people WHERE age >= 13 AND age <= 19").cache()
     teenagers.show()

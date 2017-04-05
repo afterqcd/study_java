@@ -33,5 +33,10 @@
         <module>RxJava</module>
         <module>SerDe</module>
         <module>Kafka</module>
+        <module>etcd-log-parser</module>
+        <module>couchbase-test</module>
+        <module>beam</module>
+        <module>ftp</module>
+        <module>flink</module>
     </modules>
 </project>

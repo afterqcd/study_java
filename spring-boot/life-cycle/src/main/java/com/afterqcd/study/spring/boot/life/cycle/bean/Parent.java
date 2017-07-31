@@ -11,6 +11,9 @@ public class Parent {
     @Autowired
     Child child;
 
+    /**
+     * 使用注解观察Bean的生命周期对代码侵入更少
+     */
     @PostConstruct
     void postConstruct() {
         System.out.println("Bean parent\t\t# PostConstruct");

@@ -14,5 +14,6 @@
         <module>aop</module>
         <module>web</module>
         <module>life-cycle</module>
+        <module>profile</module>
     </modules>
 </project>

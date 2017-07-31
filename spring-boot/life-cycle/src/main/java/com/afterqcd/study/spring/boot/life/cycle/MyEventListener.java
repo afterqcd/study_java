@@ -4,7 +4,7 @@ import org.springframework.context.event.EventListener;
 import org.springframework.stereotype.Component;
 
 @Component
-public class OneEventListener {
+public class MyEventListener {
     @EventListener
     void onEvent(Object event) {
         System.out.println("Context Event\t# " + event.getClass().getSimpleName());

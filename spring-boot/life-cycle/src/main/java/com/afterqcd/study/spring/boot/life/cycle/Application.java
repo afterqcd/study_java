@@ -16,6 +16,7 @@ public class Application {
      * Bean parent		# PostConstruct 后加载完有依赖的bean
      * Context Event	# ContextRefreshedEvent 所有bean加载完成后，context初始化成功。此时可以做自定义的初始化工作，如缓存预热
      * App Event		# ContextRefreshedEvent
+     * App runner		# run 此处也适合做自定义的初始化工作
      * Context Event	# ApplicationReadyEvent context初始化完成后，application进入可运行阶段
      * App Event		# ApplicationReadyEvent
      * Context Event	# ContextClosedEvent application关闭前，先关闭context
@@ -29,7 +30,7 @@ public class Application {
     public static void main(String[] args) {
         SpringApplication application = new SpringApplication(Application.class);
         // 添加ApplicationEvent的监听器
-        application.addListeners(new OneApplicationListener());
+        application.addListeners(new MyApplicationListener());
         application.run(args);
     }
 }

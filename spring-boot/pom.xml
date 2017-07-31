@@ -13,5 +13,6 @@
     <modules>
         <module>aop</module>
         <module>web</module>
+        <module>life-cycle</module>
     </modules>
 </project>

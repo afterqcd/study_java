@@ -15,5 +15,6 @@
         <module>web</module>
         <module>life-cycle</module>
         <module>profile</module>
+        <module>sql</module>
     </modules>
 </project>

@@ -2,7 +2,7 @@
 
 Spring Profile用来解决本地开发，多种运行环境所属配置不一致的问题。
 
-```bash
+```sh
 # 打包
 mvn clean package
 cd target

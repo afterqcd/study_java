@@ -2,11 +2,11 @@ package com.afterqcd.study.flink.dataflow
 
 import com.afterqcd.study.flink.model.{Text, WordCount, WordCountWithTime}
 import com.afterqcd.study.flink.utils.{ThrottledIterator, Watermark}
-import org.apache.flink.api.common.typeinfo.TypeInformation
 import org.apache.flink.streaming.api.TimeCharacteristic
 import org.apache.flink.streaming.api.scala.StreamExecutionEnvironment
 import org.apache.flink.streaming.api.windowing.time.Time
 import org.apache.flink.util.Collector
+import org.apache.flink.api.scala._
 import org.scalatest.FlatSpec
 
 /**
@@ -28,11 +28,6 @@ class AllowedLatenessTest extends FlatSpec {
   )
 
   "Flink" should "support allowed lateness" in {
-    implicit val stringTypeInfo = TypeInformation.of(classOf[String])
-    implicit val textTypeInfo = TypeInformation.of(classOf[Text])
-    implicit val wordCountTypeInfo = TypeInformation.of(classOf[WordCount])
-    implicit val wordCountWithTimeTypeInfo = TypeInformation.of(classOf[WordCountWithTime])
-
     val start = now
 
     val env = StreamExecutionEnvironment.getExecutionEnvironment

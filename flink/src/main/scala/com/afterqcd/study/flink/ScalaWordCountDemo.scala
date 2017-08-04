@@ -1,17 +1,14 @@
 package com.afterqcd.study.flink
 
-import org.apache.flink.api.common.typeinfo.TypeInformation
 import org.apache.flink.streaming.api.scala.StreamExecutionEnvironment
 import org.apache.flink.streaming.api.windowing.time.Time
+import org.apache.flink.api.scala._
 
 /**
   * Created by afterqcd on 2017/3/28.
   */
 object ScalaWordCountDemo {
   def main(args: Array[String]): Unit = {
-    implicit val stringTypeInfo = TypeInformation.of(classOf[String])
-    implicit val wordCountTypeInfo = TypeInformation.of(classOf[WordCount])
-
     val port = 9000
     val env = StreamExecutionEnvironment.getExecutionEnvironment
 

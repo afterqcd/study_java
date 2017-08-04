@@ -2,7 +2,7 @@ package com.afterqcd.study.flink.dataflow
 
 import com.afterqcd.study.flink.model.{Text, WordCount, WordCountWithTime}
 import com.afterqcd.study.flink.utils.{ThrottledIterator, Watermark}
-import org.apache.flink.api.common.typeinfo.TypeInformation
+import org.apache.flink.api.scala._
 import org.apache.flink.streaming.api.TimeCharacteristic
 import org.apache.flink.streaming.api.scala.{DataStream, StreamExecutionEnvironment}
 import org.apache.flink.streaming.api.windowing.time.Time
@@ -43,11 +43,6 @@ class WatermarkTest extends FlatSpec {
   }
 
   private def wordCountWithWatermark(assigner: DataStream[Text] => DataStream[Text]): Unit = {
-    implicit val stringTypeInfo = TypeInformation.of(classOf[String])
-    implicit val textTypeInfo = TypeInformation.of(classOf[Text])
-    implicit val wordCountTypeInfo = TypeInformation.of(classOf[WordCount])
-    implicit val wordCountWithTimeTypeInfo = TypeInformation.of(classOf[WordCountWithTime])
-
     val start = now
 
     val env = StreamExecutionEnvironment.getExecutionEnvironment

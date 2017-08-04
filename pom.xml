@@ -38,5 +38,6 @@
         <module>beam</module>
         <module>ftp</module>
         <module>flink</module>
+        <module>redis</module>
     </modules>
 </project>

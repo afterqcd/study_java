@@ -1,13 +1,11 @@
 package com.afterqcd.study.flink.dataflow
 
-import java.util.Date
-
 import com.afterqcd.study.flink.model.{Text, WordCount}
 import com.afterqcd.study.flink.utils.ThrottledIterator
-import org.apache.flink.api.common.typeinfo.TypeInformation
 import org.apache.flink.streaming.api.TimeCharacteristic
 import org.apache.flink.streaming.api.scala.StreamExecutionEnvironment
 import org.apache.flink.streaming.api.windowing.time.Time
+import org.apache.flink.api.scala._
 import org.scalatest.{FlatSpec, Matchers}
 
 /**
@@ -28,10 +26,6 @@ class IngestionTimeTest extends FlatSpec with Matchers {
   )
 
   "Flink" should "support ingestion time" in {
-    implicit val stringTypeInfo = TypeInformation.of(classOf[String])
-    implicit val textTypeInfo = TypeInformation.of(classOf[Text])
-    implicit val wordCountTypeInfo = TypeInformation.of(classOf[WordCount])
-
     val env = StreamExecutionEnvironment.getExecutionEnvironment
     env.setStreamTimeCharacteristic(TimeCharacteristic.IngestionTime)
     env.setParallelism(1)

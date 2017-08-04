@@ -2,13 +2,13 @@ package com.afterqcd.study.flink.dataflow
 
 import com.afterqcd.study.flink.model.{Text, WordCount, WordCountWithTime}
 import com.afterqcd.study.flink.utils.Watermark
-import org.apache.flink.api.common.typeinfo.TypeInformation
 import org.apache.flink.streaming.api.TimeCharacteristic
 import org.apache.flink.streaming.api.scala.StreamExecutionEnvironment
 import org.apache.flink.streaming.api.windowing.time.Time
 import org.apache.flink.streaming.api.windowing.triggers.{ContinuousEventTimeTrigger, EventTimeTrigger, Trigger}
 import org.apache.flink.streaming.api.windowing.windows.TimeWindow
 import org.apache.flink.util.Collector
+import org.apache.flink.api.scala._
 import org.scalatest.FlatSpec
 
 /**
@@ -45,11 +45,6 @@ class TriggerTest extends FlatSpec {
   }
 
   private def wordCountWithTrigger(trigger: Trigger[_ >: WordCount, _ >: TimeWindow]) = {
-    implicit val stringTypeInfo = TypeInformation.of(classOf[String])
-    implicit val textTypeInfo = TypeInformation.of(classOf[Text])
-    implicit val wordCountTypeInfo = TypeInformation.of(classOf[WordCount])
-    implicit val wordCountWithTimeTypeInfo = TypeInformation.of(classOf[WordCountWithTime])
-
     val env = StreamExecutionEnvironment.getExecutionEnvironment
     env.setStreamTimeCharacteristic(TimeCharacteristic.EventTime)
     env.setParallelism(1)

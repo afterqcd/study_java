@@ -9,6 +9,7 @@ import com.afterqcd.study.serde.protobuf.model.Level;
 import com.afterqcd.study.serde.protobuf.model.Log;
 import com.afterqcd.study.serde.protobuf.model.NamedData;
 import com.afterqcd.study.serde.protobuf.model.Square;
+import com.google.protobuf.Descriptors;
 import com.google.protobuf.InvalidProtocolBufferException;
 import com.google.protobuf.Message;
 import com.google.protobuf.Parser;
@@ -20,6 +21,7 @@ import org.junit.Before;
 import org.junit.Test;
 
 import java.util.Date;
+import java.util.List;
 
 /**
  * Created by afterqcd on 2016/12/22.

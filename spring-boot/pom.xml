@@ -16,5 +16,6 @@
         <module>life-cycle</module>
         <module>profile</module>
         <module>sql</module>
+        <module>sp-shiro</module>
     </modules>
 </project>

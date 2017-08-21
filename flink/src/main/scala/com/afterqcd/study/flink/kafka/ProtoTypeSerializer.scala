@@ -1,7 +1,7 @@
 package com.afterqcd.study.flink.kafka
 
 import com.google.protobuf.{GeneratedMessageV3, Parser}
-import org.apache.flink.api.common.typeutils.TypeSerializer
+import org.apache.flink.api.common.typeutils.{CompatibilityResult, ParameterlessTypeSerializerConfig, TypeSerializer, TypeSerializerConfigSnapshot}
 import org.apache.flink.core.memory.{DataInputView, DataOutputView}
 
 /**
@@ -55,4 +55,9 @@ class ProtoTypeSerializer[T <: GeneratedMessageV3](val clz: Class[T]) extends Ty
   override def hashCode(): Int = clz.hashCode()
 
   override def toString: String = s"ProtoTypeSerializer for class ${clz.getName}"
+
+  override def ensureCompatibility(typeSerializerConfigSnapshot: TypeSerializerConfigSnapshot): CompatibilityResult[T] =
+    CompatibilityResult.compatible()
+
+  override def snapshotConfiguration(): TypeSerializerConfigSnapshot = new ParameterlessTypeSerializerConfig()
 }

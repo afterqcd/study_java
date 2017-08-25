@@ -36,5 +36,6 @@
         <module>ftp</module>
         <module>flink</module>
         <module>redis</module>
+        <module>graphql</module>
     </modules>
 </project>

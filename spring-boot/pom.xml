@@ -17,5 +17,6 @@
         <module>profile</module>
         <module>sql</module>
         <module>sp-shiro</module>
+        <module>sb-graphql</module>
     </modules>
 </project>

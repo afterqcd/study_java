@@ -1,0 +1,32 @@
+type Author {
+    id: String!
+    name: String!
+    posts: [Post]
+    comments: [Comment]
+}
+
+type Comment {
+    id: String!
+    content: String!
+    author: Author!
+    post: Post!
+}
+
+type Post {
+    id: String!
+    title: String!
+    author: Author!
+    content: String!
+    comments: [Comment]
+}
+
+type Query {
+    posts: [Post]!
+    post(id: String!): Post!
+    authors: [Author]!
+    author(id: String!): Author!
+}
+
+schema {
+    query: Query
+}

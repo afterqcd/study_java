@@ -1,6 +1,6 @@
 package com.afterqcd.study.spark.core.basic
 
-import com.afterqcd.study.spark.SparkTest
+import com.afterqcd.study.spark.util.SparkTest
 
 /**
   * Created by afterqcd on 2016/10/12.
@@ -15,7 +15,7 @@ class PairRddTest extends SparkTest {
     ).collectAsMap()
 
     combinedPairs(0) should contain theSameElementsAs Seq('2', '4', '6')
-    combinedPairs(1) should contain theSameElementsAs Seq('1', '3')
+    combinedPairs(1) should contain theSameElementsAs Seq('1', '3', '5')
   }
 
   it should "reduceByKey:按key化简元素" in {

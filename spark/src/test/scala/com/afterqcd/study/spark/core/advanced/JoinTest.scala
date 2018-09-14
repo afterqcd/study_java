@@ -1,6 +1,6 @@
 package com.afterqcd.study.spark.core.advanced
 
-import com.afterqcd.study.spark.SparkTest
+import com.afterqcd.study.spark.util.SparkTest
 
 /**
   * Created by afterqcd on 2016/10/11.

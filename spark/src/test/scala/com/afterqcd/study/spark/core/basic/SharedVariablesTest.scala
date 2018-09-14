@@ -1,6 +1,6 @@
 package com.afterqcd.study.spark.core.basic
 
-import com.afterqcd.study.spark.SparkTest
+import com.afterqcd.study.spark.util.SparkTest
 import org.apache.spark.AccumulatorParam
 
 /**

@@ -1,16 +1,12 @@
 package com.afterqcd.study.spark.core.advanced
 
-import com.afterqcd.study.spark.{Spark, SparkTest}
-import DistributeComputationTest.thPrintln
+import com.afterqcd.study.spark.core.advanced.DistributeComputationTest.thPrintln
+import com.afterqcd.study.spark.util.SparkTest
 
 /**
   * Created by afterqcd on 2016/10/11.
   */
 class DistributeComputationTest extends SparkTest {
-  override protected def beforeAll(): Unit = {
-    sc = Spark.createContext("local[2]")
-  }
-
   "WorkCount" should "reduceByKey使用map/reduce合并" in {
     val lines = sc.parallelize(Seq(
       "hello world", "hello scala", "hello scala", "hello spark",

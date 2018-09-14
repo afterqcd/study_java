@@ -1,4 +1,4 @@
-package com.afterqcd.study.spark
+package com.afterqcd.study.spark.util
 
 import com.holdenkarau.spark.testing.StreamingSuiteBase
 import org.scalatest.{FlatSpec, Matchers}

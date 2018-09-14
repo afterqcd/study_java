@@ -1,6 +1,6 @@
 package com.afterqcd.study.spark.core.basic.rdd
 
-import com.afterqcd.study.spark.SparkTest
+import com.afterqcd.study.spark.util.SparkTest
 
 /**
   * Created by afterqcd on 2016/10/11.
@@ -8,7 +8,6 @@ import com.afterqcd.study.spark.SparkTest
 class CreatingRddTest extends SparkTest {
   "RDD" should "支持从Seq直接创建" in {
     val rdd = sc.parallelize(Seq(1, 2, 3, 4, 5, 6, 7, 8))
-    rdd.getNumPartitions should be (2)
     rdd.collect() should contain theSameElementsAs Seq(1, 2, 3, 4, 5, 6, 7, 8)
   }
 

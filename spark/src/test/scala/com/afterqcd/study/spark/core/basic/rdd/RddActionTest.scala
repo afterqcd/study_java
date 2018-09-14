@@ -1,6 +1,6 @@
 package com.afterqcd.study.spark.core.basic.rdd
 
-import com.afterqcd.study.spark.SparkTest
+import com.afterqcd.study.spark.util.SparkTest
 
 /**
   * Created by afterqcd on 2016/10/11.
@@ -23,9 +23,7 @@ class RddActionTest extends SparkTest {
 
   it should "fold:相当于带初始值的reduce" in {
     val elems = sc.parallelize(Seq(1, 2, 3, 4))
-    val partitionNumber = elems.getNumPartitions
-    elems.fold(1)(_ + _) should be (10 + (partitionNumber + 1) * 1)
-    elems.fold(2)(_ + _) should be (10 + (partitionNumber + 1) * 2)
+    elems.fold(0)(_ + _) should be (10)
   }
 
   it should "aggregate:化简，但目标值可与元素值类型不一样" in {

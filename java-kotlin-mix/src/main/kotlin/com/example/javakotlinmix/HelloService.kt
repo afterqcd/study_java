@@ -1,5 +1,6 @@
 package com.example.javakotlinmix
 
+import org.springframework.beans.factory.annotation.Value
 import org.springframework.stereotype.Service
 
 /**
@@ -9,8 +10,15 @@ import org.springframework.stereotype.Service
  * @date 2021-07-08 10:01:07
  */
 @Service
-class Service(val repository: Repository) {
+class HelloService(
+    val helloRepository: HelloRepository,
+    @Value("\${hello.message}") val helloMessage: String) {
     fun hello(): String {
-        return "Kotlin Service -> " + repository.hello()
+        return "${helloRepository.hello()} -> $helloMessage"
+    }
+
+    fun data(): List<String> {
+        val data = helloRepository.data()
+        return data.map { "$it processed by kotlin" }
     }
 }

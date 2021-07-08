@@ -4,6 +4,8 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.util.List;
+
 /**
  * @author qiuchangdong
  * @Type Controller
@@ -12,11 +14,16 @@ import org.springframework.web.bind.annotation.RestController;
  */
 @RestController
 @RequiredArgsConstructor
-public class Controller {
-    private final Service service;
+public class HelloController {
+    private final HelloService helloService;
 
     @GetMapping("/hello")
     public String hello() {
-        return "Java Controller -> " + service.hello();
+        return helloService.hello() + " -> Java Controller";
+    }
+
+    @GetMapping("/data")
+    public List<String> data() {
+        return helloService.data();
     }
 }
